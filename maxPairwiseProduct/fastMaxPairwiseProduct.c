@@ -8,6 +8,8 @@ long long fastMaxPairwiseProduct(int len, int numbers[]) {
     if (numbers[i] >= max) {
       nextmax = max;
       max = numbers[i];
+    } else if (numbers[i] >= nextmax) {
+      nextmax = numbers[i];
     }
   }
   return max * nextmax;

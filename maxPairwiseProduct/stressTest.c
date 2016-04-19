@@ -5,12 +5,12 @@
 
 int main() {
   while (1) {
-    int n = rand() % 10 + 2;
+    int n = rand() % 20000 + 2;
     printf("%d\n", n);
-    int a[11];
+    int a[n];
 
     for (int i = 0; i < n; i++) {
-      a[i] = rand() % 10000;
+      a[i] = rand() % 20000;
     }
     for (int i = 0; i < n; i++) {
       printf("%d ", a[i]);
