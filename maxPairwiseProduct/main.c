@@ -2,16 +2,17 @@
 #include <stdio.h>
 
 int main() {
-  int len, result, n, i;
+  int len, i;
+  long long n, result;
 
   scanf("%d", &len);
-  int inputs[len];
+  long long inputs[len];
 
   for (i = 0; i < len; i++) {
-    scanf("%d", &n);
+    scanf("%lld", &n);
     inputs[i] = n;
   }
 
   result = naiveMaxPairwiseProduct(len, inputs);
-  printf("%d\n", result);
+  printf("%lld\n", result);
 }
