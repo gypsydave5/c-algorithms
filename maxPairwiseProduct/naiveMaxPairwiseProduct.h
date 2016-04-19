@@ -1,1 +1,1 @@
-long long naiveMaxPairwiseProduct(int, long long []);
+long long naiveMaxPairwiseProduct(int, int []);
