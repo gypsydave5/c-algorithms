@@ -1,4 +1,4 @@
-#include "maxPairwiseProduct.h"
+#include "naiveMaxPairwiseProduct.h"
 #include <stdio.h>
 
 int main() {
@@ -11,6 +11,7 @@ int main() {
     scanf("%d", &n);
     inputs[i] = n;
   }
-  result = MaxPairwiseProduct(len, inputs);
+
+  result = naiveMaxPairwiseProduct(len, inputs);
   printf("%d\n", result);
 }

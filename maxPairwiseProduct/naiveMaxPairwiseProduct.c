@@ -1,6 +1,6 @@
-#include "maxPairwiseProduct.h"
+#include "naiveMaxPairwiseProduct.h"
 
-int MaxPairwiseProduct(int len, int numbers[]) {
+int naiveMaxPairwiseProduct(int len, int numbers[]) {
   int i, j, max;
   max = -1;
   for (i = 0; i < len; i++) {

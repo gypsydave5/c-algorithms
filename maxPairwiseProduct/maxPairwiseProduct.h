@@ -1,1 +1,0 @@
-int MaxPairwiseProduct(int, int []);
