@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "maxPairwiseProduct.h"
 
 int MaxPairwiseProduct(int len, int numbers[]) {
   int i, j, max;
@@ -11,19 +11,4 @@ int MaxPairwiseProduct(int len, int numbers[]) {
     }
   }
   return max;
-}
-
-int main() {
-  int len, result, n, i;
-
-  scanf("%d", &len);
-
-  int inputs[len];
-
-  for (i = 0; i < len; i++) {
-    scanf("%d", &n);
-    inputs[i] = n;
-  }
-  result = MaxPairwiseProduct(len, inputs);
-  printf("%d\n", result);
 }
