@@ -8,11 +8,9 @@ int lastDigitFib(long long x) {
   for (; x > 0; --x) {
     if (toggle == 0) {
       toggle = 1;
-      /*printf("%d %d\n", a, b);*/
       b = (a + b) % 10;
     } else {
       toggle = 0;
-      /*printf("%d %d\n", a, b);*/
       a = (a + b) % 10;
     }
   }
