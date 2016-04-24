@@ -1,26 +1,13 @@
+#include "dumbLastDigit.h"
+#include "lastDigitFib.h"
 #include <stdio.h>
 
-long long dumbLastDigit(int f);
-
 int main() {
-  int a;
-  long long result;
-  scanf("%d", &a);
+  long long a;
+  int result1, result2;
+  scanf("%lld", &a);
 
-  result = dumbLastDigit(a);
-  printf("%lld\n", result);
-}
-
-long long dumbLastDigit(int f) {
-  int i;
-  int arrayLength;
-  arrayLength = f + 1;
-  long long fibs[arrayLength];
-
-  fibs[0] = 0;
-  fibs[1] = 1;
-  for (i = 2; i < arrayLength; i++) {
-    fibs[i] = fibs[i - 1] + fibs[i - 2];
-  }
-  return fibs[f] % 10;
+  result1 = lastDigitFib(a);
+  result2 = dumbLastDigit(a);
+  printf("%d %d\n", result1, result2);
 }

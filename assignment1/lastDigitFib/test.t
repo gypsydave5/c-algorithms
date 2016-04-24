@@ -19,3 +19,5 @@ Last digits test
 
   $ echo "16" | $TESTDIR/a.out
   7
+
+  $ echo "16807" |
