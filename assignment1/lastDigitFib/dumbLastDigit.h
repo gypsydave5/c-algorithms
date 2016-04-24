@@ -1,2 +1,2 @@
-int dumbLastDigit(long long f);
+int dumbLastDigit(unsigned long long f);
 

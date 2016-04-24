@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void stressTest(int (*f1)(long long), int (*f2)(long long));
+void stressTest(int (*f1)(unsigned long long), int (*f2)(unsigned long long));
 
 int main() { stressTest(dumbLastDigit, lastDigitFib); }
 
-void stressTest(int (*f1)(long long), int (*f2)(long long)) {
+void stressTest(int (*f1)(unsigned long long), int (*f2)(unsigned long long)) {
   while (1) {
-    long long n = rand() % 100000;
+    unsigned long long n = rand() % 1000000;
     printf("%lld\n", n);
 
     int res1 = (f1)(n);

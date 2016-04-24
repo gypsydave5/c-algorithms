@@ -1,7 +1,7 @@
 #include "lastDigitFib.h"
 #include <stdio.h>
 
-int lastDigitFib(long long x) {
+int lastDigitFib(unsigned long long x) {
   int toggle = 0;
   int a = 0;
   int b = 1;

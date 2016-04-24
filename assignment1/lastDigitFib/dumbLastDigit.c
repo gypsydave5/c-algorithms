@@ -1,10 +1,10 @@
 #include "dumbLastDigit.h"
 #include <stdio.h>
 
-int dumbLastDigit(long long f) {
-  long long i, arrayLength;
+int dumbLastDigit(unsigned long long f) {
+  unsigned long long i, arrayLength;
   arrayLength = f + 1;
-  long long fibs[arrayLength];
+  unsigned long long fibs[arrayLength];
 
   fibs[0] = 0;
   fibs[1] = 1;

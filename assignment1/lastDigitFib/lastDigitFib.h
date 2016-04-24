@@ -1,1 +1,1 @@
-int lastDigitFib(long long x);
+int lastDigitFib(unsigned long long x);
