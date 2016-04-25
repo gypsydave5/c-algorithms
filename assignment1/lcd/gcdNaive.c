@@ -1,9 +1,8 @@
+#include "gcdNaive.h"
 #include <stdio.h>
 
-int main() {
-  int a, b, c;
-
-  scanf("%d %d", &a, &b);
+unsigned long long gcdNaive(unsigned long long a, unsigned long long b) {
+  unsigned long long c;
 
   if (a > b) {
     c = a;
@@ -17,5 +16,5 @@ int main() {
     }
   }
 
-  printf("%d\n", c);
+  return c;
 }
