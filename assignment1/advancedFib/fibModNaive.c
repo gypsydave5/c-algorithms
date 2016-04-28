@@ -1,16 +1,24 @@
 #include "fibModNaive.h"
 #include <stdio.h>
 
-unsigned long long fibModNaive(unsigned long long n, unsigned long long m) {
-  int i;
-  int arrayLength;
-  arrayLength = n + 1;
-  unsigned long long fibs[arrayLength];
+unsigned long long fibModNaive(unsigned long long x, unsigned long long m) {
+  unsigned int toggle, a, b;
+  toggle = a = 0;
+  b = 1;
 
-  fibs[0] = 0;
-  fibs[1] = 1;
-  for (i = 2; i < arrayLength; i++) {
-    fibs[i] = fibs[i - 1] + fibs[i - 2];
+  for (; x > 0; --x) {
+    if (toggle == 0) {
+      toggle = 1;
+      b = (a + b) % m;
+    } else {
+      toggle = 0;
+      a = (a + b) % m;
+    }
   }
-  return fibs[n] % m;
+
+  if (toggle == 0) {
+    return a;
+  } else {
+    return b;
+  }
 }
