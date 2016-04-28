@@ -1,12 +1,13 @@
 #include "fibModNaive.h"
+#include "fibModPisano.h"
 #include <stdio.h>
 
 int main() {
-  unsigned long long a;
-  unsigned long long m;
-  unsigned long long result;
+  unsigned long long resultN, resultP, a, m;
   scanf("%lld %lld", &a, &m);
 
-  result = fibModNaive(a, m);
-  printf("%lld\n", result);
+  resultN = fibModNaive(a, m);
+  resultP = fibModPisano(a, m);
+  printf("%lld\n", resultN);
+  printf("%lld\n", resultP);
 }
