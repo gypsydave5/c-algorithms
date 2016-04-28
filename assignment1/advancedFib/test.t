@@ -12,5 +12,5 @@ First test
   10
 
 Very difficult test
-$ echo "281621358815590 30524" | $TESTDIR/a.out
-11963
+  $ echo "281621358815590 30524" | $TESTDIR/a.out
+  11963
