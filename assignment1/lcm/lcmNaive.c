@@ -1,5 +1,5 @@
 #include "lcmNaive.h"
-unsigned long long naiveLCM(unsigned long long a, unsigned long long b) {
+unsigned long long lcmNaive(unsigned long long a, unsigned long long b) {
   unsigned long long lcm;
 
   if (a > b) {
