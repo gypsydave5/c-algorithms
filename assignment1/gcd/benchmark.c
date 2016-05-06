@@ -22,9 +22,9 @@ unsigned long long benchmark(unsigned long long (*f)(unsigned long long,
 
 int main() {
   unsigned long long t1, t2, t3;
-  t1 = benchmark(gcdNaive, 1000);
-  t2 = benchmark(gcdEuclid, 100000);
-  t3 = benchmark(gcdBinary, 100000);
+  t1 = benchmark(gcdNaive, 100);
+  t2 = benchmark(gcdEuclid, 100);
+  t3 = benchmark(gcdBinary, 100);
   printf("Naive: %lldmicroseconds\n", t1);
   printf("Euclid: %lldmicroseconds\n", t2);
   printf("Binary: %lldmicroseconds\n", t3);

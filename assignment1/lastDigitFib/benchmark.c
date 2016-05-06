@@ -20,5 +20,5 @@ int main() {
   t1 = benchmark(smallFibRecursion, 20000);
   t2 = benchmark(smallFibArray, 20000);
   printf("RecursionTime: %lldmicroseconds\n", t1);
-  printf("ArrayTime: %lldmicroseconds\n", t1);
+  printf("ArrayTime: %lldmicroseconds\n", t2);
 }

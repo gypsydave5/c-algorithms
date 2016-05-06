@@ -2,8 +2,7 @@
 #include <stdio.h>
 
 long long smallFibArray(int f) {
-  int i;
-  int arrayLength;
+  int arrayLength, i;
   arrayLength = f + 1;
   long long fibs[arrayLength];
 
