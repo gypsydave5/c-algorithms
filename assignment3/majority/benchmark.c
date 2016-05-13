@@ -1,5 +1,6 @@
 #include "divideMajority.h"
 #include "mooreMajority.h"
+#include "naiveMajority.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -26,9 +27,11 @@ unsigned long long benchmark(int (*f)(int list[], int size), int iterations) {
 }
 
 int main() {
-  unsigned long long t1, t2;
-  t1 = benchmark(divideMajority, 100000);
-  t2 = benchmark(mooreMajority, 100000);
-  printf("Divide&Conquer : %lld microseconds\n", t1);
-  printf("Moore's Algorithm: %lld microseconds\n", t2);
+  unsigned long long t1, t2, t3;
+  t1 = benchmark(naiveMajority, 1000);
+  t2 = benchmark(divideMajority, 1000);
+  t3 = benchmark(mooreMajority, 1000);
+  printf("Naive : %lld microseconds\n", t1);
+  printf("Divide&Conquer : %lld microseconds\n", t2);
+  printf("Moore's Algorithm: %lld microseconds\n", t3);
 }
