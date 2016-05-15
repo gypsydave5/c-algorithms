@@ -23,14 +23,15 @@ void createPoints(struct point line[], int points[], int pCount) {
 void createSegmentPoints(struct point line[], struct segment segments[],
                          int sCount, int pCount) {
   for (int i = 0; i < sCount; i++) {
-    int lIndex = pCount + i;
-    int rIndex = pCount + i + 1;
+    int lIndex = pCount + (i * 2);
+    int rIndex = pCount + (i * 2) + 1;
+
     line[lIndex].type = 'l';
     line[lIndex].value = segments[i].start;
-    line[lIndex].value = -1;
+    line[lIndex].index = -1;
     line[rIndex].type = 'r';
     line[rIndex].value = segments[i].end;
-    line[rIndex].value = -1;
+    line[rIndex].index = -1;
   }
 }
 
@@ -42,4 +43,18 @@ void sortedPointsAndSegments(struct segment segments[], int sCount,
 
   createPoints(theLine, points, pCount);
   createSegmentPoints(theLine, segments, sCount, pCount);
+  qsort(theLine, lineLength, sizeof(struct point), orderPoints);
+
+  for (int i = 0; i < lineLength; i++) {
+    int segsCovering = 0;
+    if (theLine[i].type == 'l') {
+      segsCovering++;
+    }
+    if (theLine[i].type == 'r') {
+      segsCovering--;
+    }
+    if (theLine[i].type == 'p') {
+      result[theLine[i].index] = segsCovering;
+    }
+  }
 }

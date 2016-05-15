@@ -67,6 +67,33 @@ void integrationTest() {
   assert(points[4].value == 3);
 }
 
+void testCreatePoints() {
+  struct point line[2];
+  int points[2] = {5, 9};
+  createPoints(line, points, 2);
+  assert(line[0].type == 'p');
+  assert(line[0].value == 5);
+  assert(line[0].index == 0);
+  assert(line[1].type == 'p');
+  assert(line[1].value == 9);
+  assert(line[1].index == 1);
+}
+
+void testCreateSegmentPoints() {
+  struct point line[4];
+  struct segment segments[2] = {{3, 4}, {9, 11}};
+
+  createSegmentPoints(line, segments, 2, 0);
+  assert(line[0].type == 'l');
+  assert(line[0].value == 3);
+  assert(line[1].type == 'r');
+  assert(line[1].value == 4);
+  assert(line[2].type == 'l');
+  assert(line[2].value == 9);
+  assert(line[3].type == 'r');
+  assert(line[3].value == 11);
+}
+
 int main() {
   testOrderPointsGreaterThan();
   testOrderPointsLessThan();
@@ -75,5 +102,7 @@ int main() {
   testPointBeforeRight();
   testEquality();
   integrationTest();
+  testCreatePoints();
+  testCreateSegmentPoints();
   printf("All tests passing!\n");
 }
