@@ -45,13 +45,13 @@ void sortedPointsAndSegments(struct segment segments[], int sCount,
   createSegmentPoints(theLine, segments, sCount, pCount);
   qsort(theLine, lineLength, sizeof(struct point), orderPoints);
 
+  int segsCovering = 0;
   for (int i = 0; i < lineLength; i++) {
-    int segsCovering = 0;
     if (theLine[i].type == 'l') {
-      segsCovering++;
+      segsCovering = segsCovering + 1;
     }
     if (theLine[i].type == 'r') {
-      segsCovering--;
+      segsCovering = segsCovering - 1;
     }
     if (theLine[i].type == 'p') {
       result[theLine[i].index] = segsCovering;

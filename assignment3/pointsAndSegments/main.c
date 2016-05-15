@@ -15,7 +15,7 @@ int main() {
     scanf("%d", &points[i]);
   }
 
-  naivePointsAndSegments(segments, sCount, points, pCount, result);
+  sortedPointsAndSegments(segments, sCount, points, pCount, result);
 
   for (i = 0; i < pCount - 1; i++) {
     printf("%d ", result[i]);
