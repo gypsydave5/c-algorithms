@@ -1,4 +1,4 @@
-#include "naivePointsAndSegments.h"
+#include "pointsAndSegments.h"
 #include <stdio.h>
 
 void naivePointsAndSegments(struct segment segments[], int sCount, int points[],

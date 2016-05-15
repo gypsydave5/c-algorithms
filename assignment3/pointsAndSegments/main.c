@@ -1,4 +1,4 @@
-#include "naivePointsAndSegments.h"
+#include "pointsAndSegments.h"
 #include <stdio.h>
 
 int main() {
