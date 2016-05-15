@@ -33,5 +33,5 @@ int main() {
   t3 = benchmark(mooreMajority, 1000);
   printf("Naive : %lld microseconds\n", t1);
   printf("Divide&Conquer : %lld microseconds\n", t2);
-  printf("Moore's Algorithm: %lld microseconds\n", t3);
+  printf("Moore's Algorithm : %lld microseconds\n", t3);
 }
