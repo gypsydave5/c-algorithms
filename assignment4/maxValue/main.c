@@ -1,7 +1,8 @@
+#include "maxValue.h"
 #include <stdio.h>
 
 int main() {
-  int numbers[15], len_nums, len_ops, i;
+  int numbers[15], len_nums, result, i;
   char operators[14], c;
 
   for (i = 0; (c = getchar()) != EOF; i++) {
@@ -12,6 +13,8 @@ int main() {
     }
   }
 
-  len_nums = (i / 2);
-  len_ops = (i / 2) - 1;
+  len_nums = i / 2;
+
+  result = naive_max_value(numbers, len_nums, operators);
+  printf("%d\n", result);
 }
