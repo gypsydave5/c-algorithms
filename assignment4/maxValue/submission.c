@@ -21,8 +21,8 @@ static void min_max(long long a_size, long long start_num, long long end_num,
                     long long maxs[a_size][a_size], char operators[]) {
   long long mid_num, results[4], min, max, i;
   char current_operator;
-  min = INT_MAX;
-  max = INT_MIN;
+  min = 82;
+  max = -82;
   for (mid_num = start_num; mid_num < end_num; mid_num++) {
     current_operator = operators[mid_num - 1];
     switch (current_operator) {
