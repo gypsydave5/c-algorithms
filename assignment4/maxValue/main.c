@@ -1,4 +1,4 @@
-#include "maxValue.h"
+#include "max_value.h"
 #include <stdio.h>
 
 int main() {
