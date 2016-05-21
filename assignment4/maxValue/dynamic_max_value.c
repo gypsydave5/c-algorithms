@@ -7,30 +7,33 @@ static int add(int a, int b) { return a + b; }
 static int subtract(int a, int b) { return a - b; }
 static int multiply(int a, int b) { return a * b; }
 
+static void apply(int (*operation)(int, int), int i, int k, int j, int r[4],
+                  int a_size, int mins[a_size][a_size],
+                  int maxs[a_size][a_size]) {
+  r[0] = (*operation)(maxs[i][k], maxs[k + 1][j]);
+  r[1] = (*operation)(maxs[i][k], mins[k + 1][j]);
+  r[2] = (*operation)(mins[i][k], maxs[k + 1][j]);
+  r[3] = (*operation)(mins[i][k], mins[k + 1][j]);
+}
+
 static void min_max(int a_size, int i, int j, int mins[a_size][a_size],
-                    int maxs[a_size][a_size], char ops[]) {
-  int k, l;
-  int min = INT_MAX;
-  int max = INT_MIN;
-  int r[4];
+                    int maxs[a_size][a_size], char operators[]) {
+  int k, l, r[4], min, max;
+  char current_operator;
+  min = INT_MAX;
+  max = INT_MIN;
   for (k = i; k < j; k++) {
-    if (ops[k - 1] == '+') {
-      r[0] = maxs[i][k] + maxs[k + 1][j];
-      r[1] = maxs[i][k] + mins[k + 1][j];
-      r[2] = mins[i][k] + maxs[k + 1][j];
-      r[3] = mins[i][k] + mins[k + 1][j];
-    }
-    if (ops[k - 1] == '-') {
-      r[0] = maxs[i][k] - maxs[k + 1][j];
-      r[1] = maxs[i][k] - mins[k + 1][j];
-      r[2] = mins[i][k] - maxs[k + 1][j];
-      r[3] = mins[i][k] - mins[k + 1][j];
-    }
-    if (ops[k - 1] == '*') {
-      r[0] = maxs[i][k] * maxs[k + 1][j];
-      r[1] = maxs[i][k] * mins[k + 1][j];
-      r[2] = mins[i][k] * maxs[k + 1][j];
-      r[3] = mins[i][k] * mins[k + 1][j];
+    current_operator = operators[k - 1];
+    switch (current_operator) {
+    case '+':
+      apply(add, i, k, j, r, a_size, mins, maxs);
+      break;
+    case '-':
+      apply(subtract, i, k, j, r, a_size, mins, maxs);
+      break;
+    case '*':
+      apply(multiply, i, k, j, r, a_size, mins, maxs);
+      break;
     }
     for (l = 0; l < 4; l++) {
       min = r[l] < min ? r[l] : min;
