@@ -16,36 +16,37 @@ static void apply(int (*operation)(int, int), int i, int k, int j, int r[4],
   r[3] = (*operation)(mins[i][k], mins[k + 1][j]);
 }
 
-static void min_max(int a_size, int i, int j, int mins[a_size][a_size],
-                    int maxs[a_size][a_size], char operators[]) {
-  int k, l, r[4], min, max;
+static void min_max(int a_size, int start_num, int end_num,
+                    int mins[a_size][a_size], int maxs[a_size][a_size],
+                    char operators[]) {
+  int mid_num, results[4], min, max, i;
   char current_operator;
   min = INT_MAX;
   max = INT_MIN;
-  for (k = i; k < j; k++) {
-    current_operator = operators[k - 1];
+  for (mid_num = start_num; mid_num < end_num; mid_num++) {
+    current_operator = operators[mid_num - 1];
     switch (current_operator) {
     case '+':
-      apply(add, i, k, j, r, a_size, mins, maxs);
+      apply(add, start_num, mid_num, end_num, results, a_size, mins, maxs);
       break;
     case '-':
-      apply(subtract, i, k, j, r, a_size, mins, maxs);
+      apply(subtract, start_num, mid_num, end_num, results, a_size, mins, maxs);
       break;
     case '*':
-      apply(multiply, i, k, j, r, a_size, mins, maxs);
+      apply(multiply, start_num, mid_num, end_num, results, a_size, mins, maxs);
       break;
     }
-    for (l = 0; l < 4; l++) {
-      min = r[l] < min ? r[l] : min;
-      max = r[l] > max ? r[l] : max;
+    for (i = 0; i < 4; i++) {
+      min = results[i] < min ? results[i] : min;
+      max = results[i] > max ? results[i] : max;
     }
   }
-  mins[i][j] = min;
-  maxs[i][j] = max;
+  mins[start_num][end_num] = min;
+  maxs[start_num][end_num] = max;
 }
 
 int dynamic_max_value(int nums[], int len_nums, char ops[]) {
-  int i, s, a_size, result;
+  int start_num, diff, a_size, result, i;
   a_size = len_nums + 1;
   int(*mins)[a_size] = malloc(a_size * a_size * sizeof(int));
   int(*maxs)[a_size] = malloc(a_size * a_size * sizeof(int));
@@ -55,10 +56,10 @@ int dynamic_max_value(int nums[], int len_nums, char ops[]) {
     maxs[i][i] = nums[i - 1];
   }
 
-  for (s = 1; s <= len_nums; s++) {
-    for (i = 1; i <= (len_nums - s); i++) {
-      int j = i + s;
-      min_max(a_size, i, j, mins, maxs, ops);
+  for (diff = 1; diff <= len_nums; diff++) {
+    for (start_num = 1; start_num <= (len_nums - diff); start_num++) {
+      int end_num = start_num + diff;
+      min_max(a_size, start_num, end_num, mins, maxs, ops);
     }
   }
 
