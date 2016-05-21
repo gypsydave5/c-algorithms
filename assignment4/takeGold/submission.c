@@ -1,12 +1,9 @@
-#include "non_rep_knapsack.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 int non_rep_knapsack(int capacity, int bars[], int bar_count) {
   int(*value)[capacity + 1] =
       malloc((bar_count + 1) * (capacity + 1) * sizeof(int));
-  // This is the equivallent of:
-  //    int value[bar_count + 1][capacity + 1];
-  // only allocated on the heap
 
   int i, w, val, candidate_bar, result;
 
@@ -35,4 +32,18 @@ int non_rep_knapsack(int capacity, int bars[], int bar_count) {
 
   free(value);
   return result;
+}
+
+int main() {
+  int capacity, bar_count, i, result;
+  scanf("%d %d\n", &capacity, &bar_count);
+  int bars[bar_count];
+
+  for (i = 0; i < bar_count; i++) {
+    scanf("%d", &bars[i]);
+  }
+
+  result = non_rep_knapsack(capacity, bars, bar_count);
+
+  printf("%d\n", result);
 }
