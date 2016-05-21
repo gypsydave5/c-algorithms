@@ -15,6 +15,6 @@ int main() {
 
   len_nums = i / 2;
 
-  result = naive_max_value(numbers, len_nums, operators);
+  result = dynamic_max_value(numbers, len_nums, operators);
   printf("%d\n", result);
 }

@@ -1,5 +1,4 @@
 #include "max_value.h"
-#include <stdio.h>
 
 static int get_max_int(int array[], int length) {
   int result = array[0];
