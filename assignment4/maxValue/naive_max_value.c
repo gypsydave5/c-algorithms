@@ -17,6 +17,30 @@ int get_min_int(int array[], int length) {
   return result;
 }
 
+void subtract_variants(int left_min, int right_min, int left_max, int right_max,
+                       int variants[]) {
+  variants[0] = left_min - right_min;
+  variants[1] = left_max - right_min;
+  variants[2] = left_min - right_max;
+  variants[3] = left_max - right_max;
+}
+
+void addition_variants(int left_min, int right_min, int left_max, int right_max,
+                       int variants[]) {
+  variants[0] = left_min + right_min;
+  variants[1] = left_max + right_min;
+  variants[2] = left_min + right_max;
+  variants[3] = left_max + right_max;
+}
+
+void product_variants(int left_min, int right_min, int left_max, int right_max,
+                      int variants[]) {
+  variants[0] = left_min * right_min;
+  variants[1] = left_max * right_min;
+  variants[2] = left_min * right_max;
+  variants[3] = left_max * right_max;
+}
+
 int recur(int (*filter)(int a[], int l), int nums[], int num_start, int num_end,
           char ops[]) {
 
@@ -39,22 +63,13 @@ int recur(int (*filter)(int a[], int l), int nums[], int num_start, int num_end,
     right_max = recur(get_max_int, nums, mid_point + 1, num_end, ops);
 
     if (ops[op_index] == '+') {
-      variants[0] = left_min + right_min;
-      variants[1] = left_max + right_min;
-      variants[2] = left_min + right_max;
-      variants[3] = left_max + right_max;
+      addition_variants(left_min, right_min, left_max, right_max, variants);
     }
     if (ops[op_index] == '-') {
-      variants[0] = left_min - right_min;
-      variants[1] = left_max - right_min;
-      variants[2] = left_min - right_max;
-      variants[3] = left_max - right_max;
+      subtract_variants(left_min, right_min, left_max, right_max, variants);
     }
     if (ops[op_index] == '*') {
-      variants[0] = left_min * right_min;
-      variants[1] = left_max * right_min;
-      variants[2] = left_min * right_max;
-      variants[3] = left_max * right_max;
+      product_variants(left_min, right_min, left_max, right_max, variants);
     }
     result[i] = filter(variants, 4);
   }
