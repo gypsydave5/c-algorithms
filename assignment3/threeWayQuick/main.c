@@ -11,7 +11,7 @@ int main() {
     scanf("%d", &array[i]);
   }
 
-  randomQS(array, 0, len - 1);
+  randomQS_three_way(array, 0, len - 1);
 
   for (i = 0; i < len - 1; i++) {
     printf("%d ", array[i]);
