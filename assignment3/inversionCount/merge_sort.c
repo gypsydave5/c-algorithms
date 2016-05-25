@@ -7,9 +7,19 @@ void merge(int array[], int l, int m, int r) {
   len = r - l + 1;
   int* temp = malloc(len * sizeof(int));
   for (i = l, j = m, k = 0; k < len; k++) {
-    temp[k] = i > m ? array[j++]
-                    : j > r ? array[i++]
-                            : array[i] < array[j] ? array[i++] : array[j++];
+    if (i > m) {
+      temp[k] = array[j];
+      j++;
+    } else if (j > r) {
+      temp[k] = array[i];
+      i++;
+    } else if (array[i] < array[j]) {
+      temp[k] = array[i];
+      i++;
+    } else {
+      temp[k] = array[j];
+      j++;
+    }
   }
 
   for (i = 0; i < len; i++) {
