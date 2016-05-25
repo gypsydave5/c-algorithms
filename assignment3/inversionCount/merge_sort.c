@@ -2,31 +2,32 @@
 #include <stdlib.h>
 #include "inversions.h"
 
-void merge(int array[], int l, int m, int r) {
-  int i, j, k, len;
-  len = r - l + 1;
-  int* temp = malloc(len * sizeof(int));
-  for (i = l, j = m, k = 0; k < len; k++) {
-    if (i > m) {
-      temp[k] = array[j];
-      j++;
-    } else if (j > r) {
-      temp[k] = array[i];
-      i++;
-    } else if (array[i] < array[j]) {
-      temp[k] = array[i];
-      i++;
+void merge(int array[], int array_start, int middle, int array_end) {
+  int i, first_index, second_index, temp_index, array_length;
+  array_length = array_end - array_start + 1;
+  int* temporary_array = malloc(array_length * sizeof(int));
+  for (first_index = array_start, second_index = middle, temp_index = 0;
+       temp_index < array_length; temp_index++) {
+    if (first_index > middle) {
+      temporary_array[temp_index] = array[first_index];
+      second_index += 1;
+    } else if (second_index > array_end) {
+      temporary_array[temp_index] = array[first_index];
+      first_index += 1;
+    } else if (array[first_index] < array[second_index]) {
+      temporary_array[temp_index] = array[first_index];
+      first_index += 1;
     } else {
-      temp[k] = array[j];
-      j++;
+      temporary_array[temp_index] = array[second_index];
+      second_index += 1;
     }
   }
 
-  for (i = 0; i < len; i++) {
-    array[i + l] = temp[i];
+  for (i = 0; i < array_length; i++) {
+    array[i + array_start] = temporary_array[i];
   }
 
-  free(temp);
+  free(temporary_array);
 }
 
 void m_sort(int array[], int l, int r) {
