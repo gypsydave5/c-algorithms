@@ -3,7 +3,7 @@
 #include "inversions.h"
 
 int main() {
-  int len, i;
+  int len, i, inversions;
   scanf("%d\n", &len);
 
   int* array = malloc(len * sizeof(int));
@@ -12,12 +12,9 @@ int main() {
     scanf("%d", &array[i]);
   }
 
-  merge_sort(array, len);
+  inversions = merge_sort_inversion(array, len);
 
-  for (i = 0; i < (len - 1); i++) {
-    printf("%d ", array[i]);
-  }
-  printf("%d\n", array[i]);
+  printf("%d\n", inversions);
 
   free(array);
 }

@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "inversions.h"
 
-void merge(int array[], int array_start, int middle, int array_end) {
-  int i, first_index, second_index, temp_index, array_length;
+int merge_inversions(int array[], int array_start, int middle, int array_end) {
+  int i, first_index, second_index, temp_index, array_length, inversion_count;
   array_length = array_end - array_start + 1;
+  inversion_count = 0;
   int* temporary_array = malloc(array_length * sizeof(int));
 
   for (first_index = array_start, second_index = middle, temp_index = 0;
@@ -15,7 +16,7 @@ void merge(int array[], int array_start, int middle, int array_end) {
     } else if (second_index > array_end) {
       temporary_array[temp_index] = array[first_index];
       first_index += 1;
-    } else if (array[first_index] < array[second_index]) {
+    } else if (array[first_index] <= array[second_index]) {
       temporary_array[temp_index] = array[first_index];
       first_index += 1;
     } else {
@@ -24,25 +25,36 @@ void merge(int array[], int array_start, int middle, int array_end) {
     }
   }
 
+  for (second_index = middle; second_index <= array_end; second_index++) {
+    for (first_index = middle - 1; first_index >= array_start; first_index--) {
+      if (array[first_index] > array[second_index]) {
+        inversion_count++;
+      }
+    }
+  }
+
   for (i = 0; i < array_length; i++) {
     array[i + array_start] = temporary_array[i];
   }
 
   free(temporary_array);
+
+  return inversion_count;
 }
 
-void m_sort(int array[], int l, int r) {
+int m_sort_inversion(int array[], int l, int r) {
   if (r == l) {
-    return;
+    return 0;
   }
-  int m;
+  int m, il, ir, inv;
   m = ((l + r) / 2) + 1;
 
-  m_sort(array, l, m - 1);
-  m_sort(array, m, r);
-  merge(array, l, m, r);
+  il = m_sort_inversion(array, l, m - 1);
+  ir = m_sort_inversion(array, m, r);
+  inv = merge_inversions(array, l, m, r);
+  return il + ir + inv;
 }
 
-void merge_sort(int array[], int array_length) {
-  m_sort(array, 0, array_length - 1);
+int merge_sort_inversion(int array[], int array_length) {
+  return m_sort_inversion(array, 0, array_length - 1);
 }
