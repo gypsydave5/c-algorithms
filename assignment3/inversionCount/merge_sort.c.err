@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "inversions.h"
+
+static void merge(int array[], int l, int m, int r) {
+
+
+}
+
+static void m_sort(int array[], int l, int r) {
+
+}
+
+void merge_sort(int array[], int array_length) {
+}
