@@ -9,13 +9,13 @@ void merge(int array[], int array_start, int middle, int array_end) {
 
   for (first_index = array_start, second_index = middle, temp_index = 0;
        temp_index < array_length; temp_index++) {
-    if (first_index > middle) {
-      temporary_array[temp_index] = array[first_index];
+    if (first_index >= middle) {
+      temporary_array[temp_index] = array[second_index];
       second_index += 1;
     } else if (second_index > array_end) {
       temporary_array[temp_index] = array[first_index];
       first_index += 1;
-    } else if (array[first_index] < array[second_index]) {
+    } else if (array[first_index] <= array[second_index]) {
       temporary_array[temp_index] = array[first_index];
       first_index += 1;
     } else {
