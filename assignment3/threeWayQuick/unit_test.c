@@ -1,6 +1,7 @@
 #include "sorting.h"
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void test_swap() {
   int array[2] = {1, 10};
@@ -10,11 +11,15 @@ void test_swap() {
 }
 
 void test_partition3() {
-  int array[10] = {4, 1, 1, 1, 10, 6, 4, 4, 4, 10};
-  int ml, mr = 0;
-  partition3(array, 0, 10, &ml, &mr);
-  assert(ml == 3);
-  assert(mr == 7);
+  int array[10] = {4, 7, 9, 8, 10, 10, 4, 4, 1, 1};
+  int expected[10] = {1, 1, 4, 4, 4, 10, 10, 8, 9, 7};
+  int ml, mr, i = 0;
+  partition3(array, 0, 9, &ml, &mr);
+  assert(ml == 2);
+  assert(mr == 5);
+  for (i = 0; i < 10; i++) {
+    assert(array[i] == expected[i]);
+  }
 }
 
 int main() {

@@ -11,9 +11,6 @@ int merge_inversions_better(int array[], int array_start, int middle,
 
   for (first_index = array_start, second_index = middle, temp_index = 0;
        temp_index < array_length; temp_index++) {
-    printf("first_index: %d, second_index: %d\n", first_index, second_index);
-    printf("array[%d]: %d, array[%d]: %d\n", first_index, array[first_index],
-           second_index, array[second_index]);
     if (first_index >= middle) {
       temporary_array[temp_index] = array[second_index];
       second_index += 1;
@@ -31,7 +28,6 @@ int merge_inversions_better(int array[], int array_start, int middle,
   }
 
   for (i = 0; i < array_length; i++) {
-    printf("array[%d]: %d\n", i + array_start, temporary_array[i]);
     array[i + array_start] = temporary_array[i];
   }
 
@@ -48,9 +44,7 @@ int m_sort_inversion_better(int array[], int l, int r) {
   m = ((l + r) / 2) + 1;
   il = m_sort_inversion_better(array, l, m - 1);
   ir = m_sort_inversion_better(array, m, r);
-  print_array_range(array, l, r);
   inv = merge_inversions_better(array, l, m, r);
-  printf("inversion: %d\n", il + ir + inv);
   return il + ir + inv;
 }
 

@@ -19,9 +19,7 @@ int m_sort_inversion(int array[], int l, int r) {
   int m, inv;
   m = ((l + r) / 2) + 1;
 
-  print_array_range(array, l, r);
   inv = merge_inversions(array, l, m, r);
-  printf("inversion: %d\n", inv);
   return inv;
 }
 
