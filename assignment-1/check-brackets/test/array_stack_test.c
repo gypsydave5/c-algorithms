@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
-#include "array_stack.h"
+#include "../src/array_stack.h"
 
 void test_initializing_array_stack() {
   a_stack stack;
