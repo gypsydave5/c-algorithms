@@ -15,3 +15,6 @@
 
   $ echo "foo(bar[i);" | $TESTDIR/main
   10
+
+  $ echo "}()" | $TESTDIR/main
+  1

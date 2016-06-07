@@ -3,13 +3,13 @@
 #include "is_balanced.h"
 
 static int pop_mismatch(char pop, char c) {
-  if ((pop == '{') && (c != '}')) {
+  if ((c == '}') && (pop != '{')) {
     return 1;
   }
-  if ((pop == '[') && (c != ']')) {
+  if ((c == ']') && (pop != '[')) {
     return 1;
   }
-  if ((pop == '(') && (c != ')')) {
+  if ((c == ')') && (pop != '(')) {
     return 1;
   }
   return 0;
