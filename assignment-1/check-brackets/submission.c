@@ -43,8 +43,8 @@ static int pop_mismatch(char pop, char c) {
 }
 
 int is_balanced_array_stack(char string[1000000]) {
-  int i;
-  char c, pop;
+  int i, pop;
+  char c;
   a_stack s;
 
   stack_init(&s);
@@ -55,17 +55,17 @@ int is_balanced_array_stack(char string[1000000]) {
       if (s.size == 0) {
         return -1;
       } else {
-        return i;
+        return stack_pop(&s) + 1;
       }
     }
 
     if (c == '{' || c == '[' || c == '(') {
-      stack_push(&s, c);
+      stack_push(&s, i);
     }
 
     if (c == '}' || c == ']' || c == ')') {
       pop = stack_pop(&s);
-      if (pop_mismatch(pop, c)) {
+      if (pop_mismatch(string[pop], c)) {
         return i + 1;
       }
     }

@@ -24,21 +24,42 @@ void test_destroying_array_stack() {
 void test_pushing_to_array_stack() {
   a_stack stack;
   stack_init(&stack);
-  stack_push(&stack, 'b');
+  stack_push(&stack, 5);
 
   assert(stack.size == 1);
-  assert(stack.contents[0] == 'b');
+  assert(stack.contents[0] == 5);
 }
 
 void test_popping_array_stack() {
-  char res;
+  int res, err;
   a_stack stack;
   stack_init(&stack);
-  stack_push(&stack, 'b');
-  res = stack_pop(&stack);
+  stack_push(&stack, 5);
+  err = stack_pop(&stack, &res);
 
   assert(stack.size == 0);
-  assert(res == 'b');
+  assert(res == 5);
+}
+
+void test_popping_empty_stack() {
+  int res, err;
+  res = 66;
+  a_stack stack;
+  stack_init(&stack);
+  err = stack_pop(&stack, &res);
+
+  assert(stack.size == 0);
+  assert(res == 66);
+  assert(err == 1);
+}
+
+void test_is_stack_empty() {
+  int res;
+  a_stack stack;
+  stack_init(&stack);
+  res = is_stack_empty(&stack);
+
+  assert(res == 1);
 }
 
 int main() {
@@ -46,5 +67,7 @@ int main() {
   test_destroying_array_stack();
   test_pushing_to_array_stack();
   test_popping_array_stack();
+  test_popping_empty_stack();
+  test_is_stack_empty();
   printf("All tests passing\n");
 }

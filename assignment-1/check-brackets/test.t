@@ -18,3 +18,9 @@
 
   $ echo "}()" | $TESTDIR/main
   1
+
+  $ echo "[](()" | $TESTDIR/main
+  3
+
+  $ echo "()[{}])" | $TESTDIR/main
+  7
