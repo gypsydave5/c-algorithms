@@ -2,13 +2,20 @@
 #include <stdlib.h>
 
 typedef struct {
-  char *contents;
+  int *contents;
   int size;
 } a_stack;
 
+int is_stack_empty(a_stack *sp) {
+  if (sp->size > 0) {
+    return 0;
+  }
+  return 1;
+}
+
 void stack_init(a_stack *sp) {
-  char *newContents;
-  newContents = (char *)malloc(sizeof(char) * 1000000);
+  int *newContents;
+  newContents = (int *)malloc(sizeof(int) * 1000000);
   sp->contents = newContents;
   sp->size = 0;
 }
@@ -19,14 +26,18 @@ void stack_destroy(a_stack *sp) {
   sp->size = -1;
 }
 
-void stack_push(a_stack *sp, char c) {
+void stack_push(a_stack *sp, int c) {
   sp->contents[sp->size] = c;
   sp->size++;
 }
 
-char stack_pop(a_stack *sp) {
+int stack_pop(a_stack *sp, int *a) {
+  if (is_stack_empty(sp)) {
+    return 1;
+  }
   sp->size--;
-  return sp->contents[sp->size];
+  *a = sp->contents[sp->size];
+  return 0;
 }
 
 static int pop_mismatch(char pop, char c) {
@@ -43,7 +54,7 @@ static int pop_mismatch(char pop, char c) {
 }
 
 int is_balanced_array_stack(char string[1000000]) {
-  int i, pop;
+  int i, pop, err;
   char c;
   a_stack s;
 
@@ -55,7 +66,8 @@ int is_balanced_array_stack(char string[1000000]) {
       if (s.size == 0) {
         return -1;
       } else {
-        return stack_pop(&s) + 1;
+        stack_pop(&s, &pop);
+        return pop + 1;
       }
     }
 
@@ -64,7 +76,10 @@ int is_balanced_array_stack(char string[1000000]) {
     }
 
     if (c == '}' || c == ']' || c == ')') {
-      pop = stack_pop(&s);
+      err = stack_pop(&s, &pop);
+      if (err) {
+        return i + 1;
+      }
       if (pop_mismatch(string[pop], c)) {
         return i + 1;
       }
