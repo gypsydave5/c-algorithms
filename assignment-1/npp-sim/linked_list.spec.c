@@ -118,10 +118,25 @@ void TestQueueCapacity() {
   assert(!err);
 }
 
+void TestQueueEmtpy() {
+  queue q;
+  queue_init_capacity(&q, 2);
+
+  assert(queue_empty(&q));
+
+  packet p;
+
+  queue_push(&q, &p);
+  assert(!queue_empty(&q));
+  queue_pop(&q);
+  assert(queue_empty(&q));
+}
+
 int main() {
   testListConstruction();
   testQueuePush();
   testQueuePop();
   TestQueueCapacity();
+  TestQueueEmtpy();
   printf("All tests pass\n");
 }
