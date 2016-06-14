@@ -1,6 +1,9 @@
 #pragma once
 
 typedef struct packet {
-    int id;
-    int p_time;
+  long long id;
+  long long t_process;
+  long long t_received;
+  long long t_start;
+  long long t_finish;
 } packet;

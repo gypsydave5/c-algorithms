@@ -9,7 +9,7 @@ void queue_init(queue *q) {
   q->size = 0;
 }
 
-void queue_init_capacity(queue *q, int capacity) {
+void queue_init_capacity(queue *q, long long capacity) {
   q->head = NULL;
   q->tail = NULL;
   q->capacity = capacity;
