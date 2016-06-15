@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "heap-array.h"
+#include "log.h"
 
 void test_parent() {
   int array[5] = {1, 2, 3, 4, 5};
@@ -44,6 +45,21 @@ void test_build_heap() {
   assert(array[4] == 4);
 }
 
+void test_build_heap_log() {
+  int array[5] = {5, 4, 3, 2, 1};
+  log l;
+  log_init(&l, 4 * 5);
+  assert(l.capacity == 20);
+
+  build_heap_log(array, 5, &l);
+
+  assert(l.size == 3);
+  assert(l.logs[0].i == 1);
+  assert(l.logs[0].j == 4);
+  assert(l.logs[2].i == 1);
+  assert(l.logs[2].j == 3);
+}
+
 int main() {
   test_parent();
   test_left_child();
@@ -51,5 +67,6 @@ int main() {
   test_swap();
   test_sift_down();
   test_build_heap();
+  test_build_heap_log();
   printf("All tests pass");
 }

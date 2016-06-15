@@ -1,2 +1,8 @@
+ac-test: build
+	cram test.t
+
+build:
+	gcc main.c log.c heap-array.c -o array-to-heap.bin
+
 test:
-	gcc heap-array.c heap-array.spec.c -o heap-array.spec.bin && ./heap-array.spec.bin
+	gcc log.c heap-array.c heap-array.spec.c -o heap-array.spec.bin && ./heap-array.spec.bin
