@@ -34,11 +34,22 @@ void test_swap() {
   assert(array[4] == 2);
 }
 
+void test_build_heap() {
+  int array[5] = {5, 4, 3, 2, 1};
+  build_heap(array, 5);
+  assert(array[0] == 1);
+  assert(array[1] == 2);
+  assert(array[2] == 3);
+  assert(array[3] == 5);
+  assert(array[4] == 4);
+}
+
 int main() {
   test_parent();
   test_left_child();
   test_right_child();
   test_swap();
   test_sift_down();
+  test_build_heap();
   printf("All tests pass");
 }

@@ -27,3 +27,9 @@ void sift_down(int array[], int size, int index) {
     sift_down(array, size, min_index);
   }
 }
+void build_heap(int array[], int size) {
+  int i;
+  for (i = size / 2; i >= 1; i--) {
+    sift_down(array, size, i);
+  }
+}
