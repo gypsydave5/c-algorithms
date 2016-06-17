@@ -24,4 +24,5 @@ int main() {
   }
 
   free(input_array);
+  log_destroy(&logs);
 }
