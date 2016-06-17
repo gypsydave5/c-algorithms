@@ -12,6 +12,14 @@ void swap(thread *a, thread *b) {
   *b = temp;
 }
 
+int t_less_than(thread *a, thread *b) {
+  long double rank_a, rank_b;
+  rank_a = (1.0 * a->finish_time) + (0.1 * a->index);
+  rank_b = (1.0 * b->finish_time) + (0.1 * b->index);
+
+  return rank_a < rank_b;
+}
+
 int left_child(int index) { return index * 2; }
 int right_child(int index) { return index * 2 + 1; }
 void sift_down(thread array[], long long size, long long index) {
@@ -24,24 +32,19 @@ void sift_down(thread array[], long long size, long long index) {
   index_t = &array[index - 1];
   max_index = index;
 
-  long double o_left, o_right, o_index;
-  o_left = (1.0 * left_t->finish_time) + (0.1 * left_t->index);
-  o_right = (1.0 * right_t->finish_time) + (0.1 * right_t->index);
-  o_index = (1.0 * index_t->finish_time) + (0.1 * index_t->index);
-
-  if (right <= size && o_right < o_index) {
+  if (right <= size && t_less_than(right_t, index_t)) {
     max_index = right;
   }
 
-  if (left <= size && o_left < o_index) {
+  if (left <= size && t_less_than(left_t, index_t)) {
     max_index = left;
   }
 
   if (left <= size && right <= size) {
-    if (o_left < o_right && o_left < o_index) {
+    if (t_less_than(left_t, index_t) && t_less_than(left_t, right_t)) {
       max_index = left;
     }
-    if (o_right < o_left && o_right < o_index) {
+    if (t_less_than(right_t, index_t) && t_less_than(right_t, left_t)) {
       max_index = right;
     }
   }
