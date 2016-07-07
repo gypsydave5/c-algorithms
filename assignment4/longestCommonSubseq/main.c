@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "print_array.h"
+#include "three_common.h"
 
 static void read_sequence(int a[], int l) {
   int i;
@@ -9,7 +10,7 @@ static void read_sequence(int a[], int l) {
 }
 
 int main() {
-  int l_1, l_2, l_3, i;
+  int l_1, l_2, l_3, i, result;
   scanf("%d\n", &l_1);
 
   int seq_1[l_1];
@@ -32,7 +33,6 @@ int main() {
     scanf("%d", &seq_3[i]);
   }
 
-  print_array(seq_1, l_1);
-  print_array(seq_2, l_2);
-  print_array(seq_3, l_3);
+  result = longest_common_three(seq_1, l_1, seq_2, l_2, seq_3, l_3);
+  printf("%d\n", result);
 }

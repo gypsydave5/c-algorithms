@@ -1,10 +1,6 @@
+#include "max.h"
 #include "two_common.h"
-int max(int a, int b, int c) {
-  int r = a;
-  r = b > r ? b : r;
-  r = c > r ? c : r;
-  return r;
-}
+
 int longest_common_two(int array_one[], int len_one, int array_two[],
                        int len_two) {
   int matrix[len_one + 1][len_two + 1], i, j;
