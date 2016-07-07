@@ -1,6 +1,7 @@
 CC=gcc
-CFLAGS=-std=c11 -Wall -pedantic -g3 -O2
+CFLAGS=-std=c11 -Wall -pedantic -g3
 PERF=-pg
+PROD=-O2
 
 ut: btree-spec stack-spec
 	./btree-spec && \
