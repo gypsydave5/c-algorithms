@@ -18,3 +18,5 @@ void post_order(node *n, void (*f)(int));
 node* find(node *root, int target);
 void insert(node *root, int value);
 node* next(node *n);
+void delete_node(node **root, node *target);
+void btree_destroy(node **root);

@@ -21,6 +21,17 @@ void node_copy(node *source, node *destination) {
   destination->parent = source->parent;
 }
 
+void btree_destroy(node **root) {
+  if (*root) {
+    int i;
+    for (i = 0; i < NUM_CHILDREN; i++) {
+      btree_destroy(&(*root)->child[i]);
+    }
+    free(*root);
+    *root = NULL;
+  }
+}
+
 node *find(node *root, int target) {
   while (root != NULL && root->value != target) {
     if (root->value > target) {
@@ -91,4 +102,42 @@ node *next(node *n) {
   } else {
     return right_ancestor(n);
   }
+}
+
+static void promote(node *target, node *replacement) {
+  node *parent = target->parent;
+  replacement->parent = parent;
+  if (parent) {
+    if (parent->child[LEFT] == target) {
+      parent->child[LEFT] = replacement;
+    } else {
+      parent->child[RIGHT] = replacement;
+    }
+  }
+}
+
+static void replace(node *target, node *replacement) {
+  promote(target, replacement);
+  replacement->child[LEFT] = target->child[LEFT];
+  replacement->child[RIGHT] = target->child[RIGHT];
+}
+
+void delete_node(node **root, node *target) {
+  node *replacement;
+  if (target->child[RIGHT] == NULL) {
+    replacement = target->child[LEFT];
+    promote(target, replacement);
+  } else {
+    replacement = next(target);
+    if (replacement->child[RIGHT]) {
+      promote(replacement, replacement->child[RIGHT]);
+    } else {
+      replacement->parent->child[LEFT] = NULL;
+    }
+    replace(target, replacement);
+  }
+  if (*root == target) {
+    *root = replacement;
+  }
+  free(target);
 }

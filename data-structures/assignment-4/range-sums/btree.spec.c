@@ -65,6 +65,30 @@ void testBtreeFind() {
   free(lefty);
 }
 
+void testBtreeDestroy() {
+  node *root, *lefty, *righty;
+  root = malloc(sizeof(node));
+  lefty = malloc(sizeof(node));
+  righty = malloc(sizeof(node));
+
+  node_init(root);
+  node_init(lefty);
+  node_init(righty);
+
+  lefty->value = 55;
+  root->value = 66;
+  righty->value = 77;
+
+  root->child[LEFT] = lefty;
+  lefty->parent = root;
+  root->child[RIGHT] = righty;
+  righty->parent = root;
+
+  btree_destroy(&root);
+
+  assert(root == NULL);
+}
+
 void testBtreeInsert() {
   node *root;
   root = malloc(sizeof(*root));
@@ -83,7 +107,8 @@ void testBtreeInsert() {
 
   assert(root->child[LEFT]->parent == root);
   assert(root->child[RIGHT]->parent == root);
-  free(root);
+
+  btree_destroy(&root);
 }
 
 void testBtreeNext() {
@@ -111,6 +136,85 @@ void testBtreeNext() {
   assert(n_next->value == 99);
   n_next = next(n_next);
   assert(n_next == NULL);
+
+  btree_destroy(&root);
+}
+
+void testBtreeDelete() {
+  node *root, *target;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 9);
+  insert(root, 1);
+  insert(root, 6);
+  insert(root, 2);
+  insert(root, 7);
+  insert(root, 4);
+
+  target = find(root, 1);
+  delete_node(&root, target);
+
+  target = find(root, 1);
+  assert(target == NULL);
+
+  target = find(root, 9);
+  assert(target->child[LEFT]->value == 2);
+
+  target = find(root, 6);
+  assert(target->child[LEFT]->value == 4);
+
+  btree_destroy(&root);
+}
+
+void testBtreeParanoidDelete() {
+  node *root, *target;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 9);
+  insert(root, 1);
+  insert(root, 6);
+  insert(root, 2);
+  insert(root, 7);
+  insert(root, 4);
+
+  target = find(root, 9);
+  delete_node(&root, target);
+
+  target = find(root, 9);
+  assert(target == NULL);
+  target = find(root, 1);
+  assert(target);
+  target = find(root, 6);
+  assert(target);
+  target = find(root, 2);
+  assert(target);
+  target = find(root, 7);
+  assert(target);
+  target = find(root, 4);
+  assert(target);
+
+  btree_destroy(&root);
+}
+
+void testEvenMoreParanoidDelete() {
+  node *root, *target;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 9);
+  insert(root, 20);
+  insert(root, 8);
+  insert(root, 21);
+  insert(root, 18);
+
+  target = find(root, 9);
+  delete_node(&root, target);
+
+  assert(root->value == 18);
+
+  btree_destroy(&root);
 }
 
 int main() {
@@ -120,5 +224,9 @@ int main() {
   testBtreeFind();
   testBtreeInsert();
   testBtreeNext();
+  testBtreeDelete();
+  testBtreeParanoidDelete();
+  testEvenMoreParanoidDelete();
+  testBtreeDestroy();
   printf("[1;32m\tBinary tree unit tests pass\n[0;m");
 }
