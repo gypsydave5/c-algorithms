@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-std=c11 -Wall -pedantic -g3 -O2
 PERF=-pg
 
-ut: build-spec stack-spec
+ut: btree-spec stack-spec
 	./btree-spec && \
 	./stack-spec
 
