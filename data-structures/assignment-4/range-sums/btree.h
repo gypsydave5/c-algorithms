@@ -20,3 +20,4 @@ void insert(node *root, int value);
 node* next(node *n);
 void delete_node(node **root, node *target);
 void btree_destroy(node **root);
+int btree_range_sum(node **root, int start, int end);

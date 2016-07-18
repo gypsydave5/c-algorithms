@@ -28,14 +28,18 @@ void btree_destroy(node **root) {
       btree_destroy(&(*root)->child[i]);
     }
     free(*root);
-    *root = NULL;
   }
+  *root = NULL;
 }
 
 node *find(node *root, int target) {
   while (root != NULL && root->value != target) {
     if (root->value > target) {
-      root = root->child[LEFT];
+      if (root->child[LEFT] != NULL) {
+        root = root->child[LEFT];
+      } else {
+        return root;
+      }
     } else {
       root = root->child[RIGHT];
     }
@@ -107,12 +111,10 @@ node *next(node *n) {
 static void promote(node *target, node *replacement) {
   node *parent = target->parent;
   replacement->parent = parent;
-  if (parent) {
-    if (parent->child[LEFT] == target) {
-      parent->child[LEFT] = replacement;
-    } else {
-      parent->child[RIGHT] = replacement;
-    }
+  if (parent->child[LEFT] == target) {
+    parent->child[LEFT] = replacement;
+  } else {
+    parent->child[RIGHT] = replacement;
   }
 }
 
@@ -122,22 +124,52 @@ static void replace(node *target, node *replacement) {
   replacement->child[RIGHT] = target->child[RIGHT];
 }
 
+static void remove_from_parent(node *target) {
+  if (target->parent == NULL) {
+    node_init(target);
+    return;
+  }
+  if (target->parent->child[LEFT] == target) {
+    target->parent->child[LEFT] = NULL;
+    free(target);
+    return;
+  }
+  target->parent->child[RIGHT] = NULL;
+  free(target);
+}
+
 void delete_node(node **root, node *target) {
   node *replacement;
-  if (target->child[RIGHT] == NULL) {
-    replacement = target->child[LEFT];
-    promote(target, replacement);
+  if (!(target->child[LEFT] || target->child[RIGHT])) {
+    remove_from_parent(target);
   } else {
-    replacement = next(target);
-    if (replacement->child[RIGHT]) {
-      promote(replacement, replacement->child[RIGHT]);
+    if (target->child[RIGHT] == NULL) {
+      replacement = target->child[LEFT];
+      promote(target, replacement);
     } else {
-      replacement->parent->child[LEFT] = NULL;
+      replacement = next(target);
+      if (replacement->child[RIGHT]) {
+        promote(replacement, replacement->child[RIGHT]);
+      } else {
+        replacement->parent->child[LEFT] = NULL;
+      }
+      replace(target, replacement);
     }
-    replace(target, replacement);
-  }
-  if (*root == target) {
-    *root = replacement;
+    if (*root == target) {
+      *root = replacement;
+    }
   }
   free(target);
+}
+
+int btree_range_sum(node **root, int start, int end) {
+  int result;
+  result = 0;
+  node *target;
+  target = find(*root, start);
+  while (target && target->value <= end) {
+    result += target->value;
+    target = next(target);
+  }
+  return result;
 }

@@ -59,10 +59,17 @@ void testBtreeFind() {
   res = find(root, 55);
   assert(res == lefty);
   res = find(root, 13);
-  assert(res == NULL);
+  assert(res == lefty);
 
   free(root);
   free(lefty);
+}
+
+void testBtreeFindEmpty() {
+  node *root, *res;
+  root = malloc(sizeof(node));
+  res = find(root, 66);
+  assert(res == NULL);
 }
 
 void testBtreeDestroy() {
@@ -156,7 +163,7 @@ void testBtreeDelete() {
   delete_node(&root, target);
 
   target = find(root, 1);
-  assert(target == NULL);
+  assert(target->value == 2);
 
   target = find(root, 9);
   assert(target->child[LEFT]->value == 2);
@@ -165,6 +172,25 @@ void testBtreeDelete() {
   assert(target->child[LEFT]->value == 4);
 
   btree_destroy(&root);
+}
+
+void testDeleteSomeMore() {
+  node *root, *target;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 2);
+  insert(root, 3);
+  insert(root, 1);
+
+  assert(root->value == 2);
+  assert(root->child[LEFT]->value == 1);
+  assert(root->child[RIGHT]->value == 3);
+
+  target = find(root, 2);
+  delete_node(&root, target);
+
+  assert(root->value == 3);
 }
 
 void testBtreeParanoidDelete() {
@@ -217,16 +243,83 @@ void testEvenMoreParanoidDelete() {
   btree_destroy(&root);
 }
 
+void testRangeSum() {
+  node *root;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 1);
+  insert(root, 2);
+  insert(root, 3);
+  insert(root, 4);
+  insert(root, 5);
+  insert(root, 6);
+  insert(root, 7);
+
+  int x;
+  x = btree_range_sum(&root, 3, 5);
+
+  assert(x == (3 + 4 + 5));
+
+  btree_destroy(&root);
+}
+
+void testRangeSumMissingStart() {
+  node *root;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 10);
+  insert(root, 20);
+  insert(root, 30);
+  insert(root, 40);
+  insert(root, 50);
+  insert(root, 60);
+  insert(root, 70);
+
+  int x;
+  x = btree_range_sum(&root, 15, 50);
+
+  assert(x == (20 + 30 + 40 + 50));
+
+  btree_destroy(&root);
+}
+
+void testRangeSumMissingEnd() {
+  node *root;
+  root = malloc(sizeof(*root));
+  node_init(root);
+
+  insert(root, 10);
+  insert(root, 20);
+  insert(root, 30);
+  insert(root, 40);
+  insert(root, 50);
+  insert(root, 60);
+  insert(root, 70);
+
+  int x;
+  x = btree_range_sum(&root, 29, 49);
+
+  assert(x == (30 + 40));
+
+  btree_destroy(&root);
+}
+
 int main() {
   testBtreeNode();
   testNodeInit();
   testNodeCopy();
   testBtreeFind();
+  testBtreeFindEmpty();
   testBtreeInsert();
   testBtreeNext();
   testBtreeDelete();
   testBtreeParanoidDelete();
   testEvenMoreParanoidDelete();
   testBtreeDestroy();
+  testRangeSum();
+  testRangeSumMissingStart();
+  testRangeSumMissingEnd();
   printf("[1;32m\tBinary tree unit tests pass\n[0;m");
 }

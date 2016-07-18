@@ -7,6 +7,12 @@ ut: btree-spec stack-spec
 	./btree-spec && \
 	./stack-spec
 
+at: range-sums
+	cram test.t
+
+range-sums: main.o stack.o btree.o
+	$(CC) $(CFLAGS) -o $@ $^
+
 btree-spec: btree.spec.o btree.o
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -17,6 +23,7 @@ stack.o: stack.h stack.c
 stack.spec.o: stack.h stack.spec.c
 btree.o: stack.h btree.c
 btree.spec.o: btree.spec.c btree.h
+main.o: main.c
 
 clean:
-	$(RM) *.bin *.o stack-spec btree-spec
+	$(RM) *.bin *.o stack-spec btree-spec range-sums
