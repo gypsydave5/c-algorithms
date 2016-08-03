@@ -111,10 +111,12 @@ node *next(node *n) {
 static void promote(node *target, node *replacement) {
   node *parent = target->parent;
   replacement->parent = parent;
-  if (parent->child[LEFT] == target) {
-    parent->child[LEFT] = replacement;
-  } else {
-    parent->child[RIGHT] = replacement;
+  if (parent) {
+    if (parent->child[LEFT] == target) {
+      parent->child[LEFT] = replacement;
+    } else {
+      parent->child[RIGHT] = replacement;
+    }
   }
 }
 
@@ -135,7 +137,9 @@ static void remove_from_parent(node *target) {
     return;
   }
   target->parent->child[RIGHT] = NULL;
-  free(target);
+  if (target) {
+    free(target);
+  }
 }
 
 void delete_node(node **root, node *target) {
