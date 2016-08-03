@@ -133,7 +133,9 @@ static void remove_from_parent(node *target) {
   }
   if (target->parent->child[LEFT] == target) {
     target->parent->child[LEFT] = NULL;
-    free(target);
+    if (target) {
+      free(target);
+    }
     return;
   }
   target->parent->child[RIGHT] = NULL;
@@ -163,7 +165,9 @@ void delete_node(node **root, node *target) {
       *root = replacement;
     }
   }
-  free(target);
+  if (target) {
+    free(target);
+  }
 }
 
 int btree_range_sum(node **root, int start, int end) {
