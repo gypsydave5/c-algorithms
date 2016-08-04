@@ -10,3 +10,4 @@ typedef struct node {
 } node;
 
 void joinLeft(node **parent, node **leftChild);
+void joinRight(node **parent, node **rightChild);
