@@ -11,3 +11,5 @@ typedef struct node {
 
 void joinLeft(node **parent, node **leftChild);
 void joinRight(node **parent, node **rightChild);
+void init(node **n, int value);
+node *find(node *root, int value);
