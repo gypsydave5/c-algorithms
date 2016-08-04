@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "btree.h"
 
 void joinLeft(node **parent, node **leftChild) {
@@ -13,14 +12,14 @@ void joinRight(node **parent, node **rightChild) {
 void init(node **n, int value) {
   (*n)->value = value;
   (*n)->sum = value;
-  (*n)->child[LEFT] = NULL;
-  (*n)->child[RIGHT] = NULL;
-  (*n)->parent = NULL;
+  (*n)->child[LEFT] = 0;
+  (*n)->child[RIGHT] = 0;
+  (*n)->parent = 0;
 }
 
 node *find(node *root, int value) {
   node *previous;
-  previous = NULL;
+  previous = 0;
   while (1) {
     if (!root) {
       return previous;

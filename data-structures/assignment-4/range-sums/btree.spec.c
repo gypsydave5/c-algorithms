@@ -38,9 +38,9 @@ void testInit() {
   init(&x, 5);
 
   assert(x->value == 5);
-  assert(x->child[LEFT] == NULL);
-  assert(x->child[RIGHT] == NULL);
-  assert(x->parent == NULL);
+  assert(x->child[LEFT] == 0);
+  assert(x->child[RIGHT] == 0);
+  assert(x->parent == 0);
   assert(x->sum == 5);
 }
 
