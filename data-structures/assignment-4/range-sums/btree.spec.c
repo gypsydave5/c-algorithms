@@ -79,7 +79,8 @@ void testFind() {
 int main() {
   testJoinLeft();
   testJoinRight();
+  testInit();
   testFind();
-  printf("\t\x1b[32mBinary tree tests pass\x1b[0m");
+  printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
 
