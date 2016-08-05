@@ -2,13 +2,47 @@
 #include "splay.h"
 
 void splay(node **root, int value) {
-  node* target;
+  node *target, *temp;
   target = find(*root, value);
 
   while (target->parent) {
-    if (target->parent->parent == 0) {
+    if (target->parent->parent) {
+      // zig zig or zig zag
+      int direction, grandparentD;
+      direction = target->parent->value < target->value;
+      grandparentD = target->parent->parent->value < target->parent->value;
+
+      if (direction == grandparentD) {
+        // zig zig
+        node *x, *y, *z, *a, *b, *c, *d;
+        x = target;
+        y = target->parent;
+        z = target->parent->parent;
+        a = target->child[direction];
+        b = target->child[!direction];
+        c = target->parent->child[!direction];
+        d = target->parent->parent->child[!direction];
+
+        if (z->parent) {
+          z->parent->child[z->parent->value < z->value] = x;
+        }
+        x->parent = z->parent;
+
+        x->child[!direction] = y;
+        y->parent = x;
+
+        y->child[direction] = b;
+        b->parent = y;
+
+        y->child[!direction] = z;
+        z->parent = y;
+
+        z->child[direction] = c;
+        c->parent = z;
+      }
+    } else {
+      // zig
       int direction = target->parent->value < value;
-      node *temp;
       temp = target->child[!direction];
 
       target->child[!direction] = target->parent;
