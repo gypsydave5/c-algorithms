@@ -29,16 +29,24 @@ void splay(node **root, int value) {
         x->parent = z->parent;
 
         x->child[!direction] = y;
-        y->parent = x;
+        if (y) {
+          y->parent = x;
+        }
 
         y->child[direction] = b;
-        b->parent = y;
+        if (b) {
+          b->parent = y;
+        }
 
         y->child[!direction] = z;
-        z->parent = y;
+        if (z) {
+          z->parent = y;
+        }
 
         z->child[direction] = c;
-        c->parent = z;
+        if (c) {
+          c->parent = z;
+        }
       } else {
         // zig zig
         node *x, *y, *z, *a, *b, *c, *d;
@@ -56,26 +64,38 @@ void splay(node **root, int value) {
         x->parent = z->parent;
 
         x->child[direction] = z;
-        z->parent = x;
+        if (z) {
+          z->parent = x;
+        }
 
         x->child[!direction] = y;
-        y->parent = x;
+        if (y) {
+          y->parent = x;
+        }
 
         y->child[direction] = b;
-        b->parent = y;
+        if (b) {
+          b->parent = y;
+        }
 
         y->child[!direction] = a;
-        a->parent = y;
+        if (a) {
+          a->parent = y;
+        }
 
         z->child[direction] = d;
-        d->parent = z;
+        if (d) {
+          d->parent = z;
+        }
 
         z->child[!direction] = c;
-        c->parent = x;
+        if (c) {
+          c->parent = x;
+        }
       }
     } else {
       // zig
-      int direction = target->parent->value < value;
+      int direction = target->parent->value < target->value;
       temp = target->child[!direction];
 
       target->child[!direction] = target->parent;
@@ -83,7 +103,9 @@ void splay(node **root, int value) {
       target->parent = 0;
 
       target->child[!direction]->child[direction] = temp;
-      temp->parent = target->child[!direction];
+      if (temp) {
+        temp->parent = target->child[!direction];
+      }
     }
   }
   *root = target;

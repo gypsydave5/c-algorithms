@@ -168,12 +168,53 @@ void testSplayZigZag(){
   assert(root->child[LEFT]->child[RIGHT]->value == 42);
   assert(root->child[RIGHT]->child[LEFT]->value == 47);
   assert(root->child[RIGHT]->child[RIGHT]->value == 55);
+
+  splay(&root, 50);
+  assert(root->value == 50);
+  assert(root->parent == 0);
+}
+
+void testSplayOne() {
+  node *root, *x, *y, *a, *b, *c, *d;
+  root = malloc(sizeof(node));
+  x = malloc(sizeof(node));
+  y = malloc(sizeof(node));
+  a = malloc(sizeof(node));
+  b = malloc(sizeof(node));
+  c = malloc(sizeof(node));
+  d = malloc(sizeof(node));
+
+  init(&root, 50);
+  init(&x, 40);
+  init(&y, 30);
+  init(&a, 20);
+  init(&b, 10);
+  init(&c, 25);
+  init(&d, 35);
+
+  joinLeft(&root, &x);
+  joinLeft(&x, &y);
+  joinLeft(&y, &a);
+  joinLeft(&a, &b);
+  joinRight(&a, &c);
+  joinRight(&y, &d);
+
+  splay(&root, 10);
+  assert(root->value == 10);
+  assert(root->parent == 0);
+  splay(&root, 20);
+  assert(root->value == 20);
+  splay(&root, 40);
+  assert(root->value == 40);
+  splay(&root, 33);
+  assert(root->value == 35);
 }
 
 int main() {
   testSplayZig();
   testSplayZigZig();
   testSplayZigZag();
+  testSplayOne();
   printf("\t\x1b[32mSplay tests pass\x1b[0m\n");
 }
 
