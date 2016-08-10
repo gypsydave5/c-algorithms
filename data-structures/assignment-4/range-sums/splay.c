@@ -2,6 +2,9 @@
 #include "splay.h"
 
 void splay(node **root, int value) {
+  if (!*root) {
+    return;
+  }
   node *target, *temp;
   target = find(*root, value);
 
