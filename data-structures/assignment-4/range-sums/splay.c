@@ -1,5 +1,5 @@
-#include "btree.h"
 #include "splay.h"
+#include "btree.h"
 
 void splay(node **root, int value) {
   if (!*root) {
@@ -31,27 +31,12 @@ void splay(node **root, int value) {
         }
         x->parent = z->parent;
 
-        x->child[!direction] = y;
-        if (y) {
-          y->parent = x;
-        }
-
-        y->child[direction] = b;
-        if (b) {
-          b->parent = y;
-        }
-
-        y->child[!direction] = z;
-        if (z) {
-          z->parent = y;
-        }
-
-        z->child[direction] = c;
-        if (c) {
-          c->parent = z;
-        }
+        join(!direction, &x, &y);
+        join(direction, &y, &b);
+        join(!direction, &y, &z);
+        join(direction, &z, &c);
       } else {
-        // zig zig
+        // zig zag
         node *x, *y, *z, *a, *b, *c, *d;
         x = target;
         y = target->parent;
@@ -66,49 +51,22 @@ void splay(node **root, int value) {
         }
         x->parent = z->parent;
 
-        x->child[direction] = z;
-        if (z) {
-          z->parent = x;
-        }
-
-        x->child[!direction] = y;
-        if (y) {
-          y->parent = x;
-        }
-
-        y->child[direction] = b;
-        if (b) {
-          b->parent = y;
-        }
-
-        y->child[!direction] = a;
-        if (a) {
-          a->parent = y;
-        }
-
-        z->child[direction] = d;
-        if (d) {
-          d->parent = z;
-        }
-
-        z->child[!direction] = c;
-        if (c) {
-          c->parent = x;
-        }
+        join(direction, &x, &z);
+        join(!direction, &x, &y);
+        join(direction, &y, &b);
+        join(!direction, &y, &a);
+        join(direction, &z, &d);
+        join(!direction, &z, &c);
       }
     } else {
       // zig
       int direction = target->parent->value < target->value;
       temp = target->child[!direction];
 
-      target->child[!direction] = target->parent;
-      target->child[!direction]->parent = target;
+      join(!direction, &target, &target->parent);
       target->parent = 0;
 
-      target->child[!direction]->child[direction] = temp;
-      if (temp) {
-        temp->parent = target->child[!direction];
-      }
+      join(direction, &target->child[!direction], &temp);
     }
   }
   *root = target;

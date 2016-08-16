@@ -32,14 +32,8 @@ void treeInsert(node **root, int new_value) {
 
   direction = (*root)->value > new_value;
 
-  new_node->child[direction] = *root;
-  (*root)->parent = new_node;
-
-  new_node->child[!direction] = (*root)->child[!direction];
-  if (new_node->child[!direction]) {
-    new_node->child[!direction]->parent = new_node;
-  }
-
+  join(direction, &new_node, root);
+  join(!direction, &new_node, &(*root)->child[!direction]);
   (*root)->child[!direction] = 0;
   *root = new_node;
 }
@@ -63,10 +57,7 @@ void treeRemove(node **root, int target) {
   }
 
   splay(&left, INT_MAX);
-  left->child[RIGHT] = right;
-  if (right != 0) {
-    right->parent = left;
-  }
+  join(RIGHT, &left, &right);
   *root = left;
 }
 
@@ -92,8 +83,7 @@ void treeMerge(node **tree_one, node **tree_two) {
   }
 
   splay(tree_one, INT_MAX);
-  (*tree_one)->child[RIGHT] = *tree_two;
-  (*tree_two)->parent = *tree_one;
+  join(RIGHT, tree_one, tree_two);
 }
 
 node *find(node *root, int value) {
