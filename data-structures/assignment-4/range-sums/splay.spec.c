@@ -12,11 +12,11 @@ void testSplayZig() {
   b = malloc(sizeof(node));
   c = malloc(sizeof(node));
 
-  init(&root, 10);
-  init(&x, 5);
-  init(&a, 1);
-  init(&b, 7);
-  init(&c, 15);
+  treeInit(&root, 10);
+  treeInit(&x, 5);
+  treeInit(&a, 1);
+  treeInit(&b, 7);
+  treeInit(&c, 15);
 
   joinLeft(&root, &x);
   joinRight(&root, &c);
@@ -68,13 +68,13 @@ void testSplayZigZig() {
   c = malloc(sizeof(node));
   d = malloc(sizeof(node));
 
-  init(&root, 50);
-  init(&x, 30);
-  init(&y, 40);
-  init(&a, 25);
-  init(&b, 35);
-  init(&c, 45);
-  init(&d, 55);
+  treeInit(&root, 50);
+  treeInit(&x, 30);
+  treeInit(&y, 40);
+  treeInit(&a, 25);
+  treeInit(&b, 35);
+  treeInit(&c, 45);
+  treeInit(&d, 55);
 
   joinLeft(&root, &y);
   joinRight(&root, &d);
@@ -144,13 +144,13 @@ void testSplayZigZag() {
   c = malloc(sizeof(node));
   d = malloc(sizeof(node));
 
-  init(&root, 50);
-  init(&x, 45);
-  init(&y, 40);
-  init(&a, 30);
-  init(&b, 42);
-  init(&c, 47);
-  init(&d, 55);
+  treeInit(&root, 50);
+  treeInit(&x, 45);
+  treeInit(&y, 40);
+  treeInit(&a, 30);
+  treeInit(&b, 42);
+  treeInit(&c, 47);
+  treeInit(&d, 55);
 
   joinLeft(&root, &y);
   joinRight(&root, &d);
@@ -184,13 +184,13 @@ void testSplayOne() {
   c = malloc(sizeof(node));
   d = malloc(sizeof(node));
 
-  init(&root, 50);
-  init(&x, 40);
-  init(&y, 30);
-  init(&a, 20);
-  init(&b, 10);
-  init(&c, 25);
-  init(&d, 35);
+  treeInit(&root, 50);
+  treeInit(&x, 40);
+  treeInit(&y, 30);
+  treeInit(&a, 20);
+  treeInit(&b, 10);
+  treeInit(&c, 25);
+  treeInit(&d, 35);
 
   joinLeft(&root, &x);
   joinLeft(&x, &y);
@@ -235,11 +235,11 @@ void testSplayLessThan() {
   b = malloc(sizeof(node));
   c = malloc(sizeof(node));
 
-  init(&root, 10);
-  init(&x, 5);
-  init(&a, 1);
-  init(&b, 7);
-  init(&c, 15);
+  treeInit(&root, 10);
+  treeInit(&x, 5);
+  treeInit(&a, 1);
+  treeInit(&b, 7);
+  treeInit(&c, 15);
 
   joinLeft(&root, &x);
   joinRight(&root, &c);

@@ -12,7 +12,7 @@ void joinRight(node **parent, node **rightChild) {
   (*rightChild)->parent = *parent;
 }
 
-void init(node **n, int value) {
+void treeInit(node **n, int value) {
   (*n)->value = value;
   (*n)->sum = value;
   (*n)->child[LEFT] = 0;
@@ -20,10 +20,10 @@ void init(node **n, int value) {
   (*n)->parent = 0;
 }
 
-void insert(node **root, int new_value) {
+void treeInsert(node **root, int new_value) {
   node *new_node;
   new_node = malloc(sizeof(node));
-  init(&new_node, new_value);
+  treeInit(&new_node, new_value);
 
   int direction;
   splay(root, new_value);
@@ -46,7 +46,7 @@ void insert(node **root, int new_value) {
   *root = new_node;
 }
 
-int contains(node **root, int value) {
+int treeContains(node **root, int value) {
   splay(root, value);
   return *root != 0 && (*root)->value == value;
 }

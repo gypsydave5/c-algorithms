@@ -35,7 +35,7 @@ void testInit() {
   node *x;
   x = malloc(sizeof(node));
 
-  init(&x, 5);
+  treeInit(&x, 5);
 
   assert(x->value == 5);
   assert(x->child[LEFT] == 0);
@@ -51,10 +51,10 @@ void testFind() {
   z = malloc(sizeof(node));
   a = malloc(sizeof(node));
 
-  init(&x, 5);
-  init(&y, 4);
-  init(&z, 3);
-  init(&a, 20);
+  treeInit(&x, 5);
+  treeInit(&y, 4);
+  treeInit(&z, 3);
+  treeInit(&a, 20);
 
   joinRight(&x, &a);
   joinLeft(&x, &y);
@@ -79,17 +79,17 @@ void testFind() {
 void testInsertOne() {
   node *root;
   root = 0;
-  insert(&root, 99);
+  treeInsert(&root, 99);
   assert(root->value == 99);
 }
 
 void testInsertTwo() {
   node *root;
   root = 0;
-  insert(&root, 12);
+  treeInsert(&root, 12);
   assert(root->value == 12);
 
-  insert(&root, 18);
+  treeInsert(&root, 18);
   assert(root->value == 18);
   assert(root->child[LEFT]->value == 12);
 }
@@ -97,14 +97,14 @@ void testInsertTwo() {
 void testInsertThree() {
   node *root;
   root = 0;
-  insert(&root, 12);
+  treeInsert(&root, 12);
   assert(root->value == 12);
 
-  insert(&root, 18);
+  treeInsert(&root, 18);
   assert(root->value == 18);
   assert(root->child[LEFT]->value == 12);
 
-  insert(&root, 10);
+  treeInsert(&root, 10);
   assert(root->value == 10);
   assert(root->child[RIGHT]->value == 12);
   assert(root->child[RIGHT]->child[RIGHT] != 0);
@@ -113,24 +113,24 @@ void testInsertThree() {
 void testContains() {
   node *root;
   root = 0;
-  insert(&root, 12);
+  treeInsert(&root, 12);
   assert(root->value == 12);
-  insert(&root, 18);
+  treeInsert(&root, 18);
   assert(root->value == 18);
   assert(root->child[LEFT]->value == 12);
-  insert(&root, 10);
+  treeInsert(&root, 10);
   assert(root->value == 10);
   assert(root->child[RIGHT]->value == 12);
   assert(root->child[RIGHT]->child[RIGHT] != 0);
 
-  insert(&root, 50);
+  treeInsert(&root, 50);
   assert(root->child[RIGHT] == 0);
   assert(root->value == 50);
   assert(root->child[LEFT]->value == 18);
   assert(root->child[LEFT]->child[LEFT]->value == 12);
   assert(root->child[LEFT]->child[LEFT]->child[LEFT]->value == 10);
 
-  insert(&root, 5);
+  treeInsert(&root, 5);
   assert(root->value == 5);
   assert(root->child[LEFT] == 0);
   assert(root->child[RIGHT]->value == 10);
@@ -139,33 +139,33 @@ void testContains() {
   assert(root->child[RIGHT]->child[RIGHT]->child[LEFT]->child[RIGHT]->value ==
          18);
 
-  insert(&root, 20);
+  treeInsert(&root, 20);
   assert(root->value == 20);
   assert(root->child[LEFT]->value == 18);
   assert(root->child[RIGHT]->value == 50);
 
-  assert(contains(&root, 10));
+  assert(treeContains(&root, 10));
   assert(root->value == 10);
-  assert(!contains(&root, 59));
+  assert(!treeContains(&root, 59));
   assert(root->value == 50);
 }
 
 void testRemove() {
   node *root;
   root = 0;
-  insert(&root, 12);
-  insert(&root, 20);
-  insert(&root, 70);
-  insert(&root, 15);
+  treeInsert(&root, 12);
+  treeInsert(&root, 20);
+  treeInsert(&root, 70);
+  treeInsert(&root, 15);
 
   treeRemove(&root, 70);
   assert(root->value == 20);
   assert(root->child[LEFT]->value == 15);
   assert(root->child[RIGHT] == 0);
-  assert(!contains(&root, 70));
-  assert(contains(&root, 12));
-  assert(contains(&root, 20));
-  assert(contains(&root, 15));
+  assert(!treeContains(&root, 70));
+  assert(treeContains(&root, 12));
+  assert(treeContains(&root, 20));
+  assert(treeContains(&root, 15));
 }
 
 int main() {

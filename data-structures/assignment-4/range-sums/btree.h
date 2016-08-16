@@ -11,8 +11,8 @@ typedef struct node {
 
 void joinLeft(node **parent, node **leftChild);
 void joinRight(node **parent, node **rightChild);
-void init(node **n, int value);
+void treeInit(node **n, int value);
 node *find(node *root, int value);
-void insert(node **root, int value);
-int contains(node **root, int value);
+void treeInsert(node **root, int value);
+int treeContains(node **root, int value);
 void treeRemove(node **root, int value);
