@@ -56,9 +56,9 @@ void testFind() {
   treeInit(&z, 3);
   treeInit(&a, 20);
 
-  joinRight(&x, &a);
-  joinLeft(&x, &y);
-  joinLeft(&y, &z);
+  join(RIGHT, &x, &a);
+  join(LEFT, &x, &y);
+  join(LEFT, &y, &z);
 
   found = find(x, 3);
   assert(found == z);

@@ -18,10 +18,10 @@ void testSplayZig() {
   treeInit(&b, 7);
   treeInit(&c, 15);
 
-  joinLeft(&root, &x);
-  joinRight(&root, &c);
-  joinLeft(&x, &a);
-  joinRight(&x, &b);
+  join(LEFT, &root, &x);
+  join(RIGHT, &root, &c);
+  join(LEFT, &x, &a);
+  join(RIGHT, &x, &b);
 
   // splay one way...
   splay(&root, 5);
@@ -76,12 +76,12 @@ void testSplayZigZig() {
   treeInit(&c, 45);
   treeInit(&d, 55);
 
-  joinLeft(&root, &y);
-  joinRight(&root, &d);
-  joinLeft(&y, &x);
-  joinRight(&y, &c);
-  joinLeft(&x, &a);
-  joinRight(&x, &b);
+  join(LEFT, &root, &y);
+  join(RIGHT, &root, &d);
+  join(LEFT, &y, &x);
+  join(RIGHT, &y, &c);
+  join(LEFT, &x, &a);
+  join(RIGHT, &x, &b);
 
   // test one way...
   splay(&root, 30);
@@ -152,12 +152,12 @@ void testSplayZigZag() {
   treeInit(&c, 47);
   treeInit(&d, 55);
 
-  joinLeft(&root, &y);
-  joinRight(&root, &d);
-  joinLeft(&y, &a);
-  joinRight(&y, &x);
-  joinLeft(&x, &b);
-  joinRight(&x, &c);
+  join(LEFT, &root, &y);
+  join(RIGHT, &root, &d);
+  join(LEFT, &y, &a);
+  join(RIGHT, &y, &x);
+  join(LEFT, &x, &b);
+  join(RIGHT, &x, &c);
 
   splay(&root, 45);
   assert(root->value == 45);
@@ -192,12 +192,12 @@ void testSplayOne() {
   treeInit(&c, 25);
   treeInit(&d, 35);
 
-  joinLeft(&root, &x);
-  joinLeft(&x, &y);
-  joinLeft(&y, &a);
-  joinLeft(&a, &b);
-  joinRight(&a, &c);
-  joinRight(&y, &d);
+  join(LEFT, &root, &x);
+  join(LEFT, &x, &y);
+  join(LEFT, &y, &a);
+  join(LEFT, &a, &b);
+  join(RIGHT, &a, &c);
+  join(RIGHT, &y, &d);
 
   splay(&root, 10);
   assert(root->value == 10);
@@ -241,10 +241,10 @@ void testSplayLessThan() {
   treeInit(&b, 7);
   treeInit(&c, 15);
 
-  joinLeft(&root, &x);
-  joinRight(&root, &c);
-  joinLeft(&x, &a);
-  joinRight(&x, &b);
+  join(LEFT, &root, &x);
+  join(RIGHT, &root, &c);
+  join(LEFT, &x, &a);
+  join(RIGHT, &x, &b);
 
   splay(&root, 4);
   assert(root->value == 1);
