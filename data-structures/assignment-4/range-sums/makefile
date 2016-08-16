@@ -10,7 +10,7 @@ ut: btree-spec splay-spec
 at: range-sums
 	cram test.t
 
-btree-spec: btree.spec.o btree.o
+btree-spec: btree.spec.o btree.o splay.o
 	$(CC) $(CFLAGS) -o $@ $^
 btree.spec.o: btree.spec.c btree.h
 btree.o: btree.c

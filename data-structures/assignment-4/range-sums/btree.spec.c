@@ -76,11 +76,89 @@ void testFind() {
   assert(found == a);
 }
 
+void testInsertOne() {
+  node *root;
+  root = 0;
+  insert(&root, 99);
+  assert(root->value == 99);
+}
+
+void testInsertTwo() {
+  node *root;
+  root = 0;
+  insert(&root, 12);
+  assert(root->value == 12);
+
+  insert(&root, 18);
+  assert(root->value == 18);
+  assert(root->child[LEFT]->value == 12);
+}
+
+void testInsertThree() {
+  node *root;
+  root = 0;
+  insert(&root, 12);
+  assert(root->value == 12);
+
+  insert(&root, 18);
+  assert(root->value == 18);
+  assert(root->child[LEFT]->value == 12);
+
+  insert(&root, 10);
+  assert(root->value == 10);
+  assert(root->child[RIGHT]->value == 12);
+  assert(root->child[RIGHT]->child[RIGHT] != 0);
+}
+
+void testContains() {
+  node *root;
+  root = 0;
+  insert(&root, 12);
+  assert(root->value == 12);
+  insert(&root, 18);
+  assert(root->value == 18);
+  assert(root->child[LEFT]->value == 12);
+  insert(&root, 10);
+  assert(root->value == 10);
+  assert(root->child[RIGHT]->value == 12);
+  assert(root->child[RIGHT]->child[RIGHT] != 0);
+
+  insert(&root, 50);
+  assert(root->child[RIGHT] == 0);
+  assert(root->value == 50);
+  assert(root->child[LEFT]->value == 18);
+  assert(root->child[LEFT]->child[LEFT]->value == 12);
+  assert(root->child[LEFT]->child[LEFT]->child[LEFT]->value == 10);
+
+  insert(&root, 5);
+  assert(root->value == 5);
+  assert(root->child[LEFT] == 0);
+  assert(root->child[RIGHT]->value == 10);
+  assert(root->child[RIGHT]->child[RIGHT]->value == 50);
+  assert(root->child[RIGHT]->child[RIGHT]->child[LEFT]->value == 12);
+  assert(root->child[RIGHT]->child[RIGHT]->child[LEFT]->child[RIGHT]->value ==
+         18);
+
+  insert(&root, 20);
+  assert(root->value == 20);
+  assert(root->child[LEFT]->value == 18);
+  assert(root->child[RIGHT]->value == 50);
+
+  assert(contains(&root, 10));
+  assert(root->value == 10);
+  assert(!contains(&root, 59));
+  assert(root->value == 50);
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
   testInit();
   testFind();
+  testInsertOne();
+  testInsertTwo();
+  testInsertThree();
+  testContains();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
 

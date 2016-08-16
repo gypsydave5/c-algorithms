@@ -202,12 +202,22 @@ void testSplayOne() {
   splay(&root, 10);
   assert(root->value == 10);
   assert(root->parent == 0);
+
   splay(&root, 20);
   assert(root->value == 20);
+  assert(root->parent == 0);
+
   splay(&root, 40);
   assert(root->value == 40);
+  assert(root->parent == 0);
+
   splay(&root, 33);
   assert(root->value == 35);
+  assert(root->parent == 0);
+
+  splay(&root, 50);
+  assert(root->value == 50);
+  assert(root->parent == 0);
 }
 
 void testSplayNull() {
@@ -217,12 +227,37 @@ void testSplayNull() {
   assert(nullRoot == 0);
 }
 
+void testSplayLessThan() {
+  node *root, *x, *a, *b, *c;
+  root = malloc(sizeof(node));
+  x = malloc(sizeof(node));
+  a = malloc(sizeof(node));
+  b = malloc(sizeof(node));
+  c = malloc(sizeof(node));
+
+  init(&root, 10);
+  init(&x, 5);
+  init(&a, 1);
+  init(&b, 7);
+  init(&c, 15);
+
+  joinLeft(&root, &x);
+  joinRight(&root, &c);
+  joinLeft(&x, &a);
+  joinRight(&x, &b);
+
+  splay(&root, 4);
+  assert(root->value == 1);
+  assert(root->parent == 0);
+}
+
 int main() {
   testSplayZig();
   testSplayZigZig();
   testSplayZigZag();
   testSplayOne();
   testSplayNull();
+  testSplayLessThan();
   printf("\t\x1b[32mSplay tests pass\x1b[0m\n");
 }
 
