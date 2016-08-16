@@ -150,6 +150,24 @@ void testContains() {
   assert(root->value == 50);
 }
 
+void testRemove() {
+  node *root;
+  root = 0;
+  insert(&root, 12);
+  insert(&root, 20);
+  insert(&root, 70);
+  insert(&root, 15);
+
+  treeRemove(&root, 70);
+  assert(root->value == 20);
+  assert(root->child[LEFT]->value == 15);
+  assert(root->child[RIGHT] == 0);
+  assert(!contains(&root, 70));
+  assert(contains(&root, 12));
+  assert(contains(&root, 20));
+  assert(contains(&root, 15));
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();

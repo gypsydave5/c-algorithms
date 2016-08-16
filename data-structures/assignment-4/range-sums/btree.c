@@ -1,4 +1,5 @@
 #include "btree.h"
+#include <limits.h>
 #include <stdlib.h>
 #include "splay.h"
 
@@ -48,6 +49,27 @@ void insert(node **root, int new_value) {
 int contains(node **root, int value) {
   splay(root, value);
   return *root != 0 && (*root)->value == value;
+}
+
+void treeRemove(node **root, int target) {
+  node *left, *right;
+  splay(root, target);
+  if (*root == 0 || (*root)->value != target) return;
+
+  left = (*root)->child[LEFT];
+  right = (*root)->child[RIGHT];
+  free(*root);
+  if (left == 0) {
+    *root = right;
+    return;
+  }
+
+  splay(&left, INT_MAX);
+  left->child[RIGHT] = right;
+  if (right != 0) {
+    right->parent = left;
+  }
+  *root = left;
 }
 
 node *find(node *root, int value) {

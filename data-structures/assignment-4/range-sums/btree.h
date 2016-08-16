@@ -15,3 +15,4 @@ void init(node **n, int value);
 node *find(node *root, int value);
 void insert(node **root, int value);
 int contains(node **root, int value);
+void treeRemove(node **root, int value);
