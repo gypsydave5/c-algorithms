@@ -17,3 +17,4 @@ void treeInsert(node **root, int value);
 int treeContains(node **root, int target);
 void treeRemove(node **root, int target);
 void treeSplit(node **root, node **greater_or_equal, int target);
+void treeMerge(node **tree_one, node **tree_two);

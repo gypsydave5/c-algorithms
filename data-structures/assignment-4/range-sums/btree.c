@@ -84,6 +84,20 @@ void treeSplit(node **root, node **greater_or_equal, int target) {
   (*greater_or_equal)->child[LEFT] = 0;
 }
 
+void treeMerge(node **tree_one, node **tree_two) {
+  if (*tree_one == 0) {
+    *tree_one = *tree_two;
+    return;
+  }
+  if (*tree_two == 0) {
+    return;
+  }
+
+  splay(tree_one, INT_MAX);
+  (*tree_one)->child[RIGHT] = *tree_two;
+  (*tree_two)->parent = *tree_one;
+}
+
 node *find(node *root, int value) {
   node *previous;
   previous = 0;
