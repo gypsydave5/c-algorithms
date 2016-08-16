@@ -14,10 +14,10 @@ void splay(node **root, int value) {
       int direction, grandparentD;
       direction = target->parent->value < target->value;
       grandparentD = target->parent->parent->value < target->parent->value;
+      node *x, *y, *z, *a, *b, *c, *d;
 
       if (direction == grandparentD) {
         // zig zig
-        node *x, *y, *z, *a, *b, *c, *d;
         x = target;
         y = target->parent;
         z = target->parent->parent;
@@ -37,7 +37,6 @@ void splay(node **root, int value) {
         join(direction, &z, &c);
       } else {
         // zig zag
-        node *x, *y, *z, *a, *b, *c, *d;
         x = target;
         y = target->parent;
         z = target->parent->parent;
@@ -58,6 +57,10 @@ void splay(node **root, int value) {
         join(direction, &z, &d);
         join(!direction, &z, &c);
       }
+
+      treeCalcSum(&z);
+      treeCalcSum(&y);
+      treeCalcSum(&x);
     } else {
       // zig
       int direction = target->parent->value < target->value;
@@ -67,6 +70,8 @@ void splay(node **root, int value) {
       target->parent = 0;
 
       join(direction, &target->child[!direction], &temp);
+      treeCalcSum(&target->child[!direction]);
+      treeCalcSum(&target);
     }
   }
   *root = target;

@@ -211,6 +211,38 @@ void testMerge() {
   assert(treeContains(&root_one, 1));
 }
 
+void testTotal() {
+  node *root;
+  root = 0;
+
+  treeInsert(&root, 5);
+  assert(root->sum == 5);
+
+  treeInsert(&root, 10);
+  assert(root->sum == 15);
+
+  treeInsert(&root, 20);
+  assert(root->sum == 35);
+
+  treeInsert(&root, 2);
+  assert(root->sum == 37);
+
+  treeInsert(&root, 8);
+  assert(root->sum == 45);
+
+  treeInsert(&root, 11);
+  assert(root->sum == 56);
+
+  treeRemove(&root, 20);
+  assert(root->sum == 36);
+
+  treeRemove(&root, 12);
+  assert(root->sum == 36);
+
+  treeRemove(&root, 5);
+  assert(root->sum == 31);
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
@@ -223,6 +255,7 @@ int main() {
   testRemove();
   testSplit();
   testMerge();
+  testTotal();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
 

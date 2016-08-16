@@ -10,6 +10,18 @@ void join(int direction, node **parent, node **child) {
   }
 }
 
+void treeCalcSum(node **root) {
+  int new_sum;
+  new_sum = 0;
+  if ((*root)->child[LEFT]) {
+    new_sum += (*root)->child[LEFT]->sum;
+  }
+  if ((*root)->child[RIGHT]) {
+    new_sum += (*root)->child[RIGHT]->sum;
+  }
+  (*root)->sum = new_sum + (*root)->value;
+}
+
 void treeInit(node **n, int value) {
   (*n)->value = value;
   (*n)->sum = value;
@@ -35,6 +47,9 @@ void treeInsert(node **root, int new_value) {
   join(direction, &new_node, root);
   join(!direction, &new_node, &(*root)->child[!direction]);
   (*root)->child[!direction] = 0;
+
+  treeCalcSum(&new_node->child[direction]);
+  treeCalcSum(&new_node);
   *root = new_node;
 }
 
@@ -52,12 +67,14 @@ void treeRemove(node **root, int target) {
   right = (*root)->child[RIGHT];
   free(*root);
   if (left == 0) {
+    treeCalcSum(&right);
     *root = right;
     return;
   }
 
   splay(&left, INT_MAX);
   join(RIGHT, &left, &right);
+  treeCalcSum(&left);
   *root = left;
 }
 
