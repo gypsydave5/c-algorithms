@@ -3,13 +3,11 @@
 #include <stdlib.h>
 #include "splay.h"
 
-void joinLeft(node **parent, node **leftChild) {
-  (*parent)->child[LEFT] = *leftChild;
-  (*leftChild)->parent = *parent;
-}
-void joinRight(node **parent, node **rightChild) {
-  (*parent)->child[RIGHT] = *rightChild;
-  (*rightChild)->parent = *parent;
+void join(int direction, node **parent, node **child) {
+  (*parent)->child[direction] = *child;
+  if (*child) {
+    (*child)->parent = *parent;
+  }
 }
 
 void treeInit(node **n, int value) {

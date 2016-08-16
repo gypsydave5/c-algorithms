@@ -9,8 +9,7 @@ typedef struct node {
   int sum;
 } node;
 
-void joinLeft(node **parent, node **leftChild);
-void joinRight(node **parent, node **rightChild);
+void join(int direction, node **parent, node **rightChild);
 void treeInit(node **n, int value);
 node *find(node *root, int target);
 void treeInsert(node **root, int value);

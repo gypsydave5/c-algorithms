@@ -11,7 +11,7 @@ void testJoinLeft() {
   x->value = 5;
   y->value = 6;
 
-  joinLeft(&y, &x);
+  join(LEFT, &y, &x);
 
   assert(x->parent = y);
   assert(y->child[LEFT] = x);
@@ -25,7 +25,7 @@ void testJoinRight() {
   x->value = 5;
   y->value = 4;
 
-  joinRight(&y, &x);
+  join(RIGHT, &y, &x);
 
   assert(x->parent = y);
   assert(y->child[RIGHT] = x);
