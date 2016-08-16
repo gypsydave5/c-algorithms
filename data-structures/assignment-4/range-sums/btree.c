@@ -72,6 +72,18 @@ void treeRemove(node **root, int target) {
   *root = left;
 }
 
+void treeSplit(node **root, node **greater_or_equal, int target) {
+  splay(root, target);
+  *greater_or_equal = *root;
+  *root = (*root)->child[LEFT];
+
+  if (*root) {
+    (*root)->parent = 0;
+  }
+
+  (*greater_or_equal)->child[LEFT] = 0;
+}
+
 node *find(node *root, int value) {
   node *previous;
   previous = 0;

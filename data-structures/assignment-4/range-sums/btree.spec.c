@@ -168,6 +168,26 @@ void testRemove() {
   assert(treeContains(&root, 15));
 }
 
+void testSplit() {
+  node *root, *greater_and_equal;
+  root = 0;
+  treeInsert(&root, 1);
+  treeInsert(&root, 2);
+  treeInsert(&root, 3);
+  treeInsert(&root, 4);
+  treeInsert(&root, 5);
+
+  treeSplit(&root, &greater_and_equal, 3);
+  assert(greater_and_equal->value == 3);
+  assert(greater_and_equal->parent == 0);
+  assert(greater_and_equal->child[RIGHT]->value == 4);
+  assert(greater_and_equal->child[RIGHT]->child[RIGHT]->value == 5);
+
+  assert(root->value == 2);
+  assert(root->parent == 0);
+  assert(root->child[LEFT]->value == 1);
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
@@ -177,6 +197,8 @@ int main() {
   testInsertTwo();
   testInsertThree();
   testContains();
+  testRemove();
+  testSplit();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
 
