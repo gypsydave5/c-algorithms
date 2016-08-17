@@ -293,6 +293,23 @@ void testTreeSumRange() {
   assert(treeContains(&root, 5));
 }
 
+void testTreeSumRangeInexact() {
+  int sum;
+  node *root;
+  root = 0;
+  treeInsert(&root, 10);
+  treeInsert(&root, 20);
+  treeInsert(&root, 30);
+  treeInsert(&root, 40);
+  treeInsert(&root, 50);
+
+  sum = treeSumRange(&root, 25, 45);
+  assert(sum == 70);
+  assert(root->value == 10);
+  assert(root->sum == 150);
+  assert(treeContains(&root, 50));
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
@@ -309,6 +326,7 @@ int main() {
   testMergeEmptyRight();
   testTotal();
   testTreeSumRange();
+  testTreeSumRangeInexact();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
 
