@@ -90,17 +90,17 @@ void treeSplit(node **root, node **greater_or_equal, int target) {
   (*greater_or_equal)->child[LEFT] = 0;
 }
 
-void treeMerge(node **tree_one, node **tree_two) {
-  if (*tree_one == 0) {
-    *tree_one = *tree_two;
+void treeMerge(node **left_tree, node **right_tree) {
+  if (*left_tree == 0) {
+    *left_tree = *right_tree;
     return;
   }
-  if (*tree_two == 0) {
+  if (*right_tree == 0) {
     return;
   }
 
-  splay(tree_one, INT_MAX);
-  join(RIGHT, tree_one, tree_two);
+  splay(left_tree, INT_MAX);
+  join(RIGHT, left_tree, right_tree);
 }
 
 node *find(node *root, int value) {
