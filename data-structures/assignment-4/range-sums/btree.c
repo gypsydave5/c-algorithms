@@ -88,6 +88,8 @@ void treeSplit(node **root, node **greater_or_equal, int target) {
   }
 
   (*greater_or_equal)->child[LEFT] = 0;
+  treeCalcSum(root);
+  treeCalcSum(greater_or_equal);
 }
 
 void treeMerge(node **left_tree, node **right_tree) {
@@ -101,6 +103,7 @@ void treeMerge(node **left_tree, node **right_tree) {
 
   splay(left_tree, INT_MAX);
   join(RIGHT, left_tree, right_tree);
+  treeCalcSum(left_tree);
 }
 
 node *find(node *root, int value) {

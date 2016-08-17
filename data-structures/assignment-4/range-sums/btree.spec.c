@@ -179,11 +179,13 @@ void testSplit() {
 
   treeSplit(&root, &greater_and_equal, 3);
   assert(greater_and_equal->value == 3);
+  assert(greater_and_equal->sum == 12);
   assert(greater_and_equal->parent == 0);
   assert(greater_and_equal->child[RIGHT]->value == 4);
   assert(greater_and_equal->child[RIGHT]->child[RIGHT]->value == 5);
 
   assert(root->value == 2);
+  assert(root->sum == 3);
   assert(root->parent == 0);
   assert(root->child[LEFT]->value == 1);
 }
@@ -206,6 +208,7 @@ void testMerge() {
 
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 5);
+  assert(left_tree->sum == 55);
   assert(treeContains(&left_tree, 10));
   assert(treeContains(&left_tree, 6));
   assert(treeContains(&left_tree, 1));
@@ -223,6 +226,7 @@ void testMergeEmptyRight() {
 
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 5);
+  assert(left_tree->sum == 15);
 }
 
 void testMergeEmptyLeft() {
@@ -237,6 +241,7 @@ void testMergeEmptyLeft() {
 
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 8);
+  assert(left_tree->sum == 30);
 }
 
 void testTotal() {
@@ -284,6 +289,7 @@ void testTreeSumRange() {
   sum = treeSumRange(&root, 2, 4);
   assert(sum == 9);
   assert(root->value == 1);
+  assert(root->sum == 15);
   assert(treeContains(&root, 5));
 }
 
