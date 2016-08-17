@@ -129,6 +129,10 @@ int treeSumRange(node **root, int left_bound, int right_bound) {
   treeSplit(root, &greater_than_left, left_bound);
   treeSplit(&greater_than_left, &greater_than_right, right_bound);
   result = greater_than_left->sum + right_bound;
+
+  treeMerge(&greater_than_left, &greater_than_right);
+  treeMerge(root, &greater_than_left);
+
   return result;
 }
 

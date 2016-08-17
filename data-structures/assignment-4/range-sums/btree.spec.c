@@ -283,6 +283,8 @@ void testTreeSumRange() {
 
   sum = treeSumRange(&root, 2, 4);
   assert(sum == 9);
+  assert(root->value == 1);
+  assert(treeContains(&root, 5));
 }
 
 int main() {
