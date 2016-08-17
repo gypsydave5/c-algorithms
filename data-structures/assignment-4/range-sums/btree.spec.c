@@ -308,6 +308,12 @@ void testTreeSumRangeInexact() {
   assert(root->value == 10);
   assert(root->sum == 150);
   assert(treeContains(&root, 50));
+
+  sum = treeSumRange(&root, 55, 45);
+  assert(sum == 0);
+
+  sum = treeSumRange(&root, 30, 30);
+  assert(sum == 30);
 }
 
 int main() {

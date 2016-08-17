@@ -3,6 +3,18 @@
 #include <stdlib.h>
 #include "splay.h"
 
+static int getSum(node *node) {
+  if (node == 0) {
+    return 0;
+  }
+  return node->sum;
+}
+
+static int getValue(node *node) {
+  if (node == 0) return 0;
+  return node->value;
+}
+
 void join(int direction, node **parent, node **child) {
   (*parent)->child[direction] = *child;
   if (*child) {
@@ -13,12 +25,10 @@ void join(int direction, node **parent, node **child) {
 void treeCalcSum(node **root) {
   int new_sum;
   new_sum = 0;
-  if ((*root)->child[LEFT]) {
-    new_sum += (*root)->child[LEFT]->sum;
-  }
-  if ((*root)->child[RIGHT]) {
-    new_sum += (*root)->child[RIGHT]->sum;
-  }
+  if (*root == 0) return;
+
+  new_sum += getSum((*root)->child[LEFT]);
+  new_sum += getSum((*root)->child[RIGHT]);
   (*root)->sum = new_sum + (*root)->value;
 }
 
@@ -128,17 +138,23 @@ node *find(node *root, int value) {
 
 int treeSumRange(node **root, int left_bound, int right_bound) {
   int result;
+  result = 0;
+
+  if (left_bound > right_bound) {
+    return result;
+  }
+
   node *greater_than_left, *greater_than_right;
   treeSplit(root, &greater_than_left, left_bound);
   treeSplit(&greater_than_left, &greater_than_right, right_bound);
-  result = greater_than_left->sum;
+  result += getSum(greater_than_left);
 
-  if (greater_than_left->value < left_bound) {
-    result -= greater_than_left->value;
+  if (getValue(greater_than_left) < left_bound) {
+    result -= getValue(greater_than_left);
   }
 
-  if (greater_than_right->value <= right_bound) {
-    result += greater_than_right->value;
+  if (getValue(greater_than_right) <= right_bound) {
+    result += getValue(greater_than_right);
   }
 
   treeMerge(&greater_than_left, &greater_than_right);
