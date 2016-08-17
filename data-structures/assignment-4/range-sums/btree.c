@@ -123,3 +123,12 @@ node *find(node *root, int value) {
   }
 }
 
+int treeSumRange(node **root, int left_bound, int right_bound) {
+  int result;
+  node *greater_than_left, *greater_than_right;
+  treeSplit(root, &greater_than_left, left_bound);
+  treeSplit(&greater_than_left, &greater_than_right, right_bound);
+  result = greater_than_left->sum + right_bound;
+  return result;
+}
+

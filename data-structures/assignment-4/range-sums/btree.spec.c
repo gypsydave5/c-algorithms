@@ -271,6 +271,20 @@ void testTotal() {
   assert(root->sum == 31);
 }
 
+void testTreeSumRange() {
+  int sum;
+  node *root;
+  root = 0;
+  treeInsert(&root, 1);
+  treeInsert(&root, 2);
+  treeInsert(&root, 3);
+  treeInsert(&root, 4);
+  treeInsert(&root, 5);
+
+  sum = treeSumRange(&root, 2, 4);
+  assert(sum == 9);
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
@@ -286,6 +300,7 @@ int main() {
   testMergeEmptyLeft();
   testMergeEmptyRight();
   testTotal();
+  testTreeSumRange();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
 

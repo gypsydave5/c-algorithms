@@ -18,3 +18,4 @@ void treeRemove(node **root, int target);
 void treeSplit(node **root, node **greater_or_equal, int target);
 void treeMerge(node **tree_one, node **tree_two);
 void treeCalcSum(node **root);
+int treeSumRange(node **root, int left_bound, int right_bound);
