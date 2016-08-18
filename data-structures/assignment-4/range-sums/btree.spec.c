@@ -384,6 +384,9 @@ void testTreeSumRangeInexact() {
   sum = treeSumRange(&root, 49, 50);
   assert(sum == 50);
 
+  sum = treeSumRange(&root, 0, 100);
+  assert(sum == root->sum);
+
   treeDestroy(&root);
 }
 
