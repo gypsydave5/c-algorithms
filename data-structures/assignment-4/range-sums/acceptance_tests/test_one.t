@@ -1,4 +1,4 @@
-  $ cat $TESTDIR/test_one.txt | $TESTDIR/range-sums
+  $ cat $TESTDIR/test_one.txt | $TESTDIR/../range-sums
   Not found
   Found
   3

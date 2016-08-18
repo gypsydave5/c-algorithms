@@ -8,7 +8,7 @@ ut: btree-spec splay-spec
 	./splay-spec
 
 at: range-sums
-	cram test.t
+	cram acceptance_tests/*.t
 
 range-sums: main.o btree.o splay.o
 	$(CC) $(CFLAGS) -o $@ $^
