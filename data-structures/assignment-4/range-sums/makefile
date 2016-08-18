@@ -10,6 +10,11 @@ ut: btree-spec splay-spec
 at: range-sums
 	cram test.t
 
+range-sums: main.o btree.o splay.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+main.o: main.c btree.h
+
 btree-spec: btree.spec.o btree.o splay.o
 	$(CC) $(CFLAGS) -o $@ $^
 btree.spec.o: btree.spec.c btree.h
@@ -22,4 +27,4 @@ splay.o: splay.c
 
 
 clean:
-	$(RM) *-spec *.o btree-spec *.err
+	$(RM) *-spec *.o btree-spec *.err a.out range-sums

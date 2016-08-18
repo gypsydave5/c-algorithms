@@ -1,59 +1,51 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "btree.h"
 
 #define MOD 1000000001
 
 int main() {
-  int commands, i, last_sum;
+  int commands, i, number, upper, lower, last_sum;
   last_sum = 0;
 
-  node *root, *target;
-  root = malloc(sizeof(*root));
-  node_init(root);
+  node *root;
+  root = 0;
 
   scanf("%d\n", &commands);
 
   for (i = 0; i < commands; i++) {
     char command;
-    int number, number_two;
     scanf("%c ", &command);
 
     if (command == '+') {
       scanf("%d\n", &number);
       number = (number + last_sum) % MOD;
-      target = find(root, number);
-      if (!(target && target->value == number)) {
-        insert(root, number);
-      }
+      treeInsert(&root, number);
     }
 
     if (command == '-') {
       scanf("%d\n", &number);
       number = (number + last_sum) % MOD;
-      target = find(root, number);
-      if (target && target->value == number) {
-        delete_node(&root, target);
-      }
+      treeRemove(&root, number);
     }
 
     if (command == '?') {
       scanf("%d\n", &number);
       number = (number + last_sum) % MOD;
-      target = find(root, number);
-      if (target && target->value == number) {
+
+      if (treeContains(&root, number)) {
         printf("Found\n");
       } else {
-        printf("Not Found\n");
+        printf("Not found\n");
       }
     }
 
     if (command == 's') {
-      scanf("%d %d\n", &number, &number_two);
-      number = (number + last_sum) % MOD;
-      number_two = (number_two + last_sum) % MOD;
+      scanf("%d %d\n", &lower, &upper);
+      lower = (lower + last_sum) % MOD;
+      upper = (upper + last_sum) % MOD;
 
-      last_sum = btree_range_sum(&root, number, number_two);
+      last_sum = treeSumRange(&root, lower, upper);
+
       printf("%d\n", last_sum);
     }
   }

@@ -41,12 +41,15 @@ void treeInit(node **n, int value) {
 }
 
 void treeInsert(node **root, int new_value) {
+  int direction;
   node *new_node;
+  splay(root, new_value);
+
+  if (*root != 0 && (*root)->value == new_value) return;
+
   new_node = malloc(sizeof(node));
   treeInit(&new_node, new_value);
 
-  int direction;
-  splay(root, new_value);
   if (*root == 0) {
     *root = new_node;
     return;

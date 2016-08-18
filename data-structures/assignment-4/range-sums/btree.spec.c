@@ -148,6 +148,17 @@ void testInsertThree() {
   treeDestroy(&root);
 }
 
+void testInsertNoDuplicates() {
+  node *root;
+  root = 0;
+  treeInsert(&root, 12);
+  assert(root->value == 12);
+  assert(root->sum == 12);
+
+  treeInsert(&root, 12);
+  assert(root->sum == 12);
+}
+
 void testContains() {
   node *root;
   root = 0;
@@ -385,6 +396,7 @@ int main() {
   testInsertOne();
   testInsertTwo();
   testInsertThree();
+  testInsertNoDuplicates();
   testContains();
   testRemove();
   testSplit();
