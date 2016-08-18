@@ -33,7 +33,7 @@ def set_range_sum
       last_sum  = in_range.reduce(0, :+)
       puts last_sum
     end
-    puts set.to_a
+    #puts set.to_a
   end
 end
 
