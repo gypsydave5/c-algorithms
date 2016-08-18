@@ -3,34 +3,6 @@
 #include <stdlib.h>
 #include "btree.h"
 
-void testJoinLeft() {
-  node *x, *y;
-  x = malloc(sizeof(node));
-  y = malloc(sizeof(node));
-
-  x->value = 5;
-  y->value = 6;
-
-  join(LEFT, &y, &x);
-
-  assert(x->parent = y);
-  assert(y->child[LEFT] = x);
-}
-
-void testJoinRight() {
-  node *x, *y;
-  x = malloc(sizeof(node));
-  y = malloc(sizeof(node));
-
-  x->value = 5;
-  y->value = 4;
-
-  join(RIGHT, &y, &x);
-
-  assert(x->parent = y);
-  assert(y->child[RIGHT] = x);
-}
-
 void testInit() {
   node *x;
   x = malloc(sizeof(node));
@@ -42,6 +14,64 @@ void testInit() {
   assert(x->child[RIGHT] == 0);
   assert(x->parent == 0);
   assert(x->sum == 5);
+
+  treeDestroy(&x);
+}
+
+void testJoinLeft() {
+  node *x, *y;
+  x = malloc(sizeof(node));
+  y = malloc(sizeof(node));
+
+  treeInit(&x, 5);
+  treeInit(&y, 6);
+
+  join(LEFT, &y, &x);
+
+  assert(x->parent = y);
+  assert(y->child[LEFT] = x);
+
+  treeDestroy(&x);
+}
+
+void testJoinRight() {
+  node *x, *y;
+  x = malloc(sizeof(node));
+  y = malloc(sizeof(node));
+
+  treeInit(&x, 5);
+  treeInit(&y, 4);
+
+  join(RIGHT, &y, &x);
+
+  assert(x->parent = y);
+  assert(y->child[RIGHT] = x);
+
+  treeDestroy(&x);
+}
+
+void testTreeDestroy() {
+  node *x, *y, *z, *a;
+  x = malloc(sizeof(node));
+  y = malloc(sizeof(node));
+  z = malloc(sizeof(node));
+  a = malloc(sizeof(node));
+
+  treeInit(&x, 5);
+  treeInit(&y, 4);
+  treeInit(&z, 3);
+  treeInit(&a, 2);
+
+  join(RIGHT, &x, &a);
+  join(LEFT, &x, &y);
+  join(LEFT, &y, &z);
+
+  treeDestroy(&x);
+
+  assert(x == 0);
+  // all the other pointers are freed, but dangling and cannot be nulled from
+  // within the destroy function. Well, not without adding another layer of
+  // indirection anyway...
 }
 
 void testFind() {
@@ -74,6 +104,8 @@ void testFind() {
 
   found = find(x, 18);
   assert(found == a);
+
+  treeDestroy(&x);
 }
 
 void testInsertOne() {
@@ -81,6 +113,8 @@ void testInsertOne() {
   root = 0;
   treeInsert(&root, 99);
   assert(root->value == 99);
+
+  treeDestroy(&root);
 }
 
 void testInsertTwo() {
@@ -92,6 +126,8 @@ void testInsertTwo() {
   treeInsert(&root, 18);
   assert(root->value == 18);
   assert(root->child[LEFT]->value == 12);
+
+  treeDestroy(&root);
 }
 
 void testInsertThree() {
@@ -108,6 +144,8 @@ void testInsertThree() {
   assert(root->value == 10);
   assert(root->child[RIGHT]->value == 12);
   assert(root->child[RIGHT]->child[RIGHT] != 0);
+
+  treeDestroy(&root);
 }
 
 void testContains() {
@@ -148,6 +186,8 @@ void testContains() {
   assert(root->value == 10);
   assert(!treeContains(&root, 59));
   assert(root->value == 50);
+
+  treeDestroy(&root);
 }
 
 void testRemove() {
@@ -166,6 +206,8 @@ void testRemove() {
   assert(treeContains(&root, 12));
   assert(treeContains(&root, 20));
   assert(treeContains(&root, 15));
+
+  treeDestroy(&root);
 }
 
 void testSplit() {
@@ -188,6 +230,9 @@ void testSplit() {
   assert(root->sum == 3);
   assert(root->parent == 0);
   assert(root->child[LEFT]->value == 1);
+
+  treeDestroy(&root);
+  treeDestroy(&greater_and_equal);
 }
 
 void testMerge() {
@@ -212,6 +257,8 @@ void testMerge() {
   assert(treeContains(&left_tree, 10));
   assert(treeContains(&left_tree, 6));
   assert(treeContains(&left_tree, 1));
+
+  treeDestroy(&left_tree);
 }
 
 void testMergeEmptyRight() {
@@ -227,6 +274,8 @@ void testMergeEmptyRight() {
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 5);
   assert(left_tree->sum == 15);
+
+  treeDestroy(&left_tree);
 }
 
 void testMergeEmptyLeft() {
@@ -242,6 +291,8 @@ void testMergeEmptyLeft() {
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 8);
   assert(left_tree->sum == 30);
+
+  treeDestroy(&left_tree);
 }
 
 void testTotal() {
@@ -274,6 +325,8 @@ void testTotal() {
 
   treeRemove(&root, 5);
   assert(root->sum == 31);
+
+  treeDestroy(&root);
 }
 
 void testTreeSumRange() {
@@ -291,6 +344,8 @@ void testTreeSumRange() {
   assert(root->value == 1);
   assert(root->sum == 15);
   assert(treeContains(&root, 5));
+
+  treeDestroy(&root);
 }
 
 void testTreeSumRangeInexact() {
@@ -314,11 +369,17 @@ void testTreeSumRangeInexact() {
 
   sum = treeSumRange(&root, 30, 30);
   assert(sum == 30);
+
+  sum = treeSumRange(&root, 49, 50);
+  assert(sum == 50);
+
+  treeDestroy(&root);
 }
 
 int main() {
   testJoinLeft();
   testJoinRight();
+  testTreeDestroy();
   testInit();
   testFind();
   testInsertOne();
@@ -335,4 +396,3 @@ int main() {
   testTreeSumRangeInexact();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
-

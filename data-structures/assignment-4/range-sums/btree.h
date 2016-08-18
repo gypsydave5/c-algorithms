@@ -10,6 +10,7 @@ typedef struct node {
 } node;
 
 void join(int direction, node **parent, node **rightChild);
+void treeDestroy(node **root);
 void treeInit(node **n, int value);
 node *find(node *root, int target);
 void treeInsert(node **root, int value);

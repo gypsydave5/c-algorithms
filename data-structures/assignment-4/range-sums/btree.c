@@ -1,6 +1,6 @@
-#include "btree.h"
 #include <limits.h>
 #include <stdlib.h>
+#include "btree.h"
 #include "splay.h"
 
 static int getSum(node *node) {
@@ -17,7 +17,7 @@ static int getValue(node *node) {
 
 void join(int direction, node **parent, node **child) {
   (*parent)->child[direction] = *child;
-  if (*child) {
+  if (*child != 0) {
     (*child)->parent = *parent;
   }
 }
@@ -76,8 +76,16 @@ void treeRemove(node **root, int target) {
   left = (*root)->child[LEFT];
   right = (*root)->child[RIGHT];
   free(*root);
+  *root = 0;
+
+  if (left == 0 && right == 0) {
+    *root = 0;
+    return;
+  }
+
   if (left == 0) {
     treeCalcSum(&right);
+    right->parent = 0;
     *root = right;
     return;
   }
@@ -120,7 +128,7 @@ node *find(node *root, int value) {
   node *previous;
   previous = 0;
   while (1) {
-    if (!root) {
+    if (root == 0) {
       return previous;
     }
     if (root->value == value) {
@@ -163,3 +171,8 @@ int treeSumRange(node **root, int left_bound, int right_bound) {
   return result;
 }
 
+void treeDestroy(node **root) {
+  while (*root != 0) {
+    treeRemove(root, (*root)->value);
+  }
+}

@@ -1,2 +1,3 @@
 *.out
 *.gch
+.ycm_extra_conf.py

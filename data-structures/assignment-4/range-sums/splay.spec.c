@@ -260,4 +260,3 @@ int main() {
   testSplayLessThan();
   printf("\t\x1b[32mSplay tests pass\x1b[0m\n");
 }
-
