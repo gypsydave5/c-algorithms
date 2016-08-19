@@ -32,6 +32,16 @@ void treeCalcSum(node **root) {
   (*root)->sum = new_sum + (*root)->value;
 }
 
+void update(node **n) {
+  treeCalcSum(n);
+  if ((*n)->child[LEFT]) {
+    (*n)->child[LEFT]->parent = *n;
+  }
+  if ((*n)->child[RIGHT]) {
+    (*n)->child[RIGHT]->parent = *n;
+  }
+}
+
 void treeInit(node **n, unsigned long long value) {
   (*n)->value = value;
   (*n)->sum = value;
