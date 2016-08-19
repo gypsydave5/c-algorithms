@@ -101,7 +101,13 @@ void treeRemove(node **root, unsigned long long target) {
 
 void treeSplit(node **root, node **greater_or_equal,
                unsigned long long target) {
+  if (*root == 0) {
+    *greater_or_equal = 0;
+    return;
+  };
+
   splay(root, target);
+
   *greater_or_equal = *root;
   *root = (*root)->child[LEFT];
 
@@ -148,29 +154,35 @@ node *find(node *root, unsigned long long value) {
   }
 }
 
-int treeSumRange(node **root, int left_bound, int right_bound) {
-  int result;
-  result = 0;
+static int empty(node *pointer) { return pointer == 0; }
 
-  if (left_bound > right_bound) {
+unsigned long long treeSumRange(node **root, unsigned long long left_bound,
+                                unsigned long long right_bound) {
+  unsigned long long result;
+  node *left, *right;
+  result = 0;
+  left = right = 0;
+
+  if (empty(*root) || left_bound > right_bound) return result;
+
+  treeSplit(root, &left, left_bound);
+  treeSplit(&left, &right, right_bound);
+  result += getSum(left);
+
+  if (empty(left) && getValue(right) < left_bound) {
     return result;
   }
 
-  node *greater_than_left, *greater_than_right;
-  treeSplit(root, &greater_than_left, left_bound);
-  treeSplit(&greater_than_left, &greater_than_right, right_bound);
-  result += getSum(greater_than_left);
-
-  if (getValue(greater_than_left) < left_bound) {
-    result -= getValue(greater_than_left);
+  if (getValue(left) < left_bound) {
+    result -= getValue(left);
   }
 
-  if (getValue(greater_than_right) <= right_bound) {
-    result += getValue(greater_than_right);
+  if (getValue(right) <= right_bound) {
+    result += getValue(right);
   }
 
-  treeMerge(&greater_than_left, &greater_than_right);
-  treeMerge(root, &greater_than_left);
+  treeMerge(&left, &right);
+  treeMerge(root, &left);
 
   return result;
 }

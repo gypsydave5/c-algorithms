@@ -202,6 +202,13 @@ void testContains() {
   treeDestroy(&root);
 }
 
+void testContainsEmpty() {
+  node *root;
+  root = 0;
+
+  assert(!treeContains(&root, 10));
+}
+
 void testRemove() {
   node *root;
   root = 0;
@@ -360,6 +367,26 @@ void testTreeSumRange() {
   treeDestroy(&root);
 }
 
+void testTreeSumRangeEmpty() {
+  int sum;
+  node *root;
+  root = 0;
+
+  sum = treeSumRange(&root, 2, 4);
+  assert(sum == 0);
+}
+
+void testTreeSumRangeMax() {
+  int sum;
+  node *root;
+  root = 0;
+
+  treeInsert(&root, 1000000000);
+  treeInsert(&root, 999999999);
+  sum = treeSumRange(&root, 999999999, 1000000000);
+  assert(sum == 1999999999);
+}
+
 void testTreeSumRangeInexact() {
   int sum;
   node *root;
@@ -391,6 +418,16 @@ void testTreeSumRangeInexact() {
   treeDestroy(&root);
 }
 
+void edgeCaseOne() {
+  int sum;
+  node *root;
+  root = 0;
+  treeContains(&root, 741630654);
+  treeInsert(&root, 497631873);
+  sum = treeSumRange(&root, 744291401, 940449494);
+  assert(sum == 0);
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
@@ -402,6 +439,7 @@ int main() {
   testInsertThree();
   testInsertNoDuplicates();
   testContains();
+  testContainsEmpty();
   testRemove();
   testSplit();
   testMerge();
@@ -410,5 +448,8 @@ int main() {
   testTotal();
   testTreeSumRange();
   testTreeSumRangeInexact();
+  testTreeSumRangeEmpty();
+  testTreeSumRangeMax();
+  edgeCaseOne();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }

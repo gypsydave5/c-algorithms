@@ -8,7 +8,8 @@ def set_range_sum
   last_sum = 0
 
   command_count.times do
-    command, first, second = gets.chomp.split(' ')
+    command, first, second = gets.split(' ')
+
     first = (first.to_i + last_sum) % MOD
     second = (second.to_i + last_sum) % MOD
 
