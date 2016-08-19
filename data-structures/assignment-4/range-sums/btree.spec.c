@@ -284,7 +284,6 @@ void testMerge() {
 
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 5);
-  assert(left_tree->sum == 55);
   assert(treeContains(&left_tree, 10));
   assert(treeContains(&left_tree, 6));
   assert(treeContains(&left_tree, 1));
@@ -304,7 +303,6 @@ void testMergeEmptyRight() {
 
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 5);
-  assert(left_tree->sum == 15);
 
   treeDestroy(&left_tree);
 }
@@ -321,43 +319,8 @@ void testMergeEmptyLeft() {
 
   treeMerge(&left_tree, &right_tree);
   assert(left_tree->value == 8);
-  assert(left_tree->sum == 30);
 
   treeDestroy(&left_tree);
-}
-
-void testTotal() {
-  node *root;
-  root = 0;
-
-  treeInsert(&root, 5);
-  assert(root->sum == 5);
-
-  treeInsert(&root, 10);
-  assert(root->sum == 15);
-
-  treeInsert(&root, 20);
-  assert(root->sum == 35);
-
-  treeInsert(&root, 2);
-  assert(root->sum == 37);
-
-  treeInsert(&root, 8);
-  assert(root->sum == 45);
-
-  treeInsert(&root, 11);
-  assert(root->sum == 56);
-
-  treeRemove(&root, 20);
-  assert(root->sum == 36);
-
-  treeRemove(&root, 12);
-  assert(root->sum == 36);
-
-  treeRemove(&root, 5);
-  assert(root->sum == 31);
-
-  treeDestroy(&root);
 }
 
 void testTreeSumRange() {
@@ -373,7 +336,6 @@ void testTreeSumRange() {
   sum = treeSumRange(&root, 2, 4);
   assert(sum == 9);
   assert(root->value == 1);
-  assert(root->sum == 15);
   assert(treeContains(&root, 5));
 
   treeDestroy(&root);
@@ -407,7 +369,6 @@ void testTreeSumRangeInexact() {
 
   sum = treeSumRange(&root, 25, 45);
   assert(sum == 70);
-  assert(root->sum == 150);
   assert(treeContains(&root, 50));
 
   sum = treeSumRange(&root, 0, 100);
@@ -459,6 +420,16 @@ void testTreeSumRangeBoundsUnder() {
   assert(sum == 0);
 }
 
+void testEdgeCaseSum() {
+  int sum;
+  node *root;
+  unsigned long long numbers[] = {300, 600, 400};
+  root = generateTree(numbers, 3);
+
+  sum = treeSumRange(&root, 350, 900);
+  assert(sum == 1000);
+}
+
 int main() {
   testJoinLeft();
   testJoinRight();
@@ -476,7 +447,6 @@ int main() {
   testMerge();
   testMergeEmptyLeft();
   testMergeEmptyRight();
-  testTotal();
   testTreeSumRange();
   testTreeSumRangeInexact();
   testTreeSumRangeEmpty();
@@ -485,5 +455,7 @@ int main() {
   testTreeSumRangeNoRange();
   testTreeSumRangeBoundsOver();
   testTreeSumRangeBoundsUnder();
+
+  testEdgeCaseSum();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }

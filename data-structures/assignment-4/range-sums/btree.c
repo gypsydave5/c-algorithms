@@ -61,8 +61,6 @@ void treeInsert(node **root, unsigned long long new_value) {
   join(!direction, &new_node, &(*root)->child[!direction]);
   (*root)->child[!direction] = 0;
 
-  treeCalcSum(&new_node->child[direction]);
-  treeCalcSum(&new_node);
   *root = new_node;
 }
 
@@ -87,7 +85,6 @@ void treeRemove(node **root, unsigned long long target) {
   }
 
   if (left == 0) {
-    treeCalcSum(&right);
     right->parent = 0;
     *root = right;
     return;
@@ -95,27 +92,26 @@ void treeRemove(node **root, unsigned long long target) {
 
   splay(&left, ULLONG_MAX);
   join(RIGHT, &left, &right);
-  treeCalcSum(&left);
   *root = left;
 }
 
 void treeSplit(node **root, node **greater_or_equal,
                unsigned long long target) {
-  if (*root == 0) {
-    *greater_or_equal = 0;
-    return;
-  };
+  if (*root == 0) return;
 
   splay(root, target);
 
-  *greater_or_equal = *root;
-  *root = (*root)->child[LEFT];
-
-  if (*root) {
-    (*root)->parent = 0;
+  if (getValue(*root) < target) {
+    *greater_or_equal = (*root)->child[RIGHT];
+    if (*greater_or_equal) (*greater_or_equal)->parent = 0;
+    (*root)->child[RIGHT] = 0;
+  } else {
+    *greater_or_equal = *root;
+    *root = (*root)->child[LEFT];
+    if (*root) (*root)->parent = 0;
+    (*greater_or_equal)->child[LEFT] = 0;
   }
 
-  (*greater_or_equal)->child[LEFT] = 0;
   treeCalcSum(root);
   treeCalcSum(greater_or_equal);
 }
@@ -131,7 +127,6 @@ void treeMerge(node **left_tree, node **right_tree) {
 
   splay(left_tree, ULLONG_MAX);
   join(RIGHT, left_tree, right_tree);
-  treeCalcSum(left_tree);
 }
 
 node *find(node *root, unsigned long long value) {

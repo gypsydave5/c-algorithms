@@ -1,5 +1,5 @@
 INT_MAX = 1000000000
-COMMAND_MAX = 10 - 1
+COMMAND_MAX = 10000 - 1
 
 def add
   return "+ #{random_integer}"
