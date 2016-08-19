@@ -8,7 +8,7 @@ ut: btree-spec splay-spec splay-two-spec
 	./splay-spec && \
 	./splay-two-spec
 
-at: range-sums
+at: range-sums-two
 	cram acceptance_tests/*.t
 
 stress-test:
@@ -21,8 +21,12 @@ submission: submission.o
 	$(CC) $(CFLAGS) -o range-sums $^
 submission.o: submission.c
 
+range-sums-two: main.o btree.o splay.o
+	$(CC) $(CFLAGS) -o range-sums $^
+
 range-sums: main.o btree.o splay.o
 	$(CC) $(CFLAGS) -o $@ $^
+
 main.o: main.c btree.h
 
 btree-spec: btree.spec.o btree.o splay.o

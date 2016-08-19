@@ -1,41 +1,41 @@
 #include "btree.h"
 #include "splay.h"
 
-static void smallRotation(node **target) {
-  node *parent = (*target)->parent;
+static void smallRotation(node *target) {
+  node *parent = target->parent;
   if (parent == 0) return;
 
-  node *grandparent = (*target)->parent->parent;
-  if (parent->child[LEFT] == *target) {
-    node *m = (*target)->child[RIGHT];
-    (*target)->child[RIGHT] = parent;
+  node *grandparent = target->parent->parent;
+  if (parent->child[LEFT] == target) {
+    node *m = target->child[RIGHT];
+    target->child[RIGHT] = parent;
     parent->child[LEFT] = m;
   } else {
-    node *m = (*target)->child[LEFT];
-    (*target)->child[LEFT] = parent;
+    node *m = target->child[LEFT];
+    target->child[LEFT] = parent;
     parent->child[RIGHT] = m;
   }
-  update(&parent);
+  update(parent);
   update(target);
 
-  (*target)->parent = grandparent;
+  target->parent = grandparent;
   if (grandparent != 0) {
     if (grandparent->child[LEFT] == parent) {
-      grandparent->child[LEFT] = *target;
+      grandparent->child[LEFT] = target;
     } else {
-      grandparent->child[RIGHT] = *target;
+      grandparent->child[RIGHT] = target;
     }
   }
 }
 
-static void bigRotation(node **target) {
-  if ((*target)->parent->child[LEFT] == *target &&
-      (*target)->parent->parent->child[LEFT] == (*target)->parent) {
-    smallRotation(&(*target)->parent);
+static void bigRotation(node *target) {
+  if (target->parent->child[LEFT] == target &&
+      target->parent->parent->child[LEFT] == target->parent) {
+    smallRotation(target->parent);
     smallRotation(target);
-  } else if ((*target)->parent->child[RIGHT] == *target &&
-             (*target)->parent->parent->child[RIGHT] == (*target)->parent) {
-    smallRotation(&(*target)->parent);
+  } else if (target->parent->child[RIGHT] == target &&
+             target->parent->parent->child[RIGHT] == target->parent) {
+    smallRotation(target->parent);
     smallRotation(target);
   } else {
     smallRotation(target);
@@ -48,12 +48,12 @@ void splay(node **root, unsigned long long value) {
   node *target;
   target = find(*root, value);
 
-  while ((*root)->parent != 0) {
-    if ((*root)->parent->parent == 0) {
-      smallRotation(&target);
+  while (target->parent != 0) {
+    if (target->parent->parent == 0) {
+      smallRotation(target);
       break;
     }
-    bigRotation(&target);
+    bigRotation(target);
   }
   *root = target;
 }
