@@ -1,21 +1,21 @@
+#include "btree.h"
 #include <limits.h>
 #include <stdlib.h>
-#include "btree.h"
 #include "splay.h"
 
-static int getSum(node *node) {
+static unsigned long long getSum(node *node) {
   if (node == 0) {
     return 0;
   }
   return node->sum;
 }
 
-static int getValue(node *node) {
+static unsigned long long getValue(node *node) {
   if (node == 0) return 0;
   return node->value;
 }
 
-void join(int direction, node **parent, node **child) {
+void join(unsigned long long direction, node **parent, node **child) {
   (*parent)->child[direction] = *child;
   if (*child != 0) {
     (*child)->parent = *parent;
@@ -23,7 +23,7 @@ void join(int direction, node **parent, node **child) {
 }
 
 void treeCalcSum(node **root) {
-  int new_sum;
+  unsigned long long new_sum;
   new_sum = 0;
   if (*root == 0) return;
 
@@ -32,7 +32,7 @@ void treeCalcSum(node **root) {
   (*root)->sum = new_sum + (*root)->value;
 }
 
-void treeInit(node **n, int value) {
+void treeInit(node **n, unsigned long long value) {
   (*n)->value = value;
   (*n)->sum = value;
   (*n)->child[LEFT] = 0;
@@ -40,8 +40,8 @@ void treeInit(node **n, int value) {
   (*n)->parent = 0;
 }
 
-void treeInsert(node **root, int new_value) {
-  int direction;
+void treeInsert(node **root, unsigned long long new_value) {
+  unsigned long long direction;
   node *new_node;
   splay(root, new_value);
 
@@ -66,12 +66,12 @@ void treeInsert(node **root, int new_value) {
   *root = new_node;
 }
 
-int treeContains(node **root, int value) {
+unsigned long long treeContains(node **root, unsigned long long value) {
   splay(root, value);
   return *root != 0 && (*root)->value == value;
 }
 
-void treeRemove(node **root, int target) {
+void treeRemove(node **root, unsigned long long target) {
   node *left, *right;
   splay(root, target);
   if (*root == 0 || (*root)->value != target) return;
@@ -93,13 +93,14 @@ void treeRemove(node **root, int target) {
     return;
   }
 
-  splay(&left, INT_MAX);
+  splay(&left, ULLONG_MAX);
   join(RIGHT, &left, &right);
   treeCalcSum(&left);
   *root = left;
 }
 
-void treeSplit(node **root, node **greater_or_equal, int target) {
+void treeSplit(node **root, node **greater_or_equal,
+               unsigned long long target) {
   splay(root, target);
   *greater_or_equal = *root;
   *root = (*root)->child[LEFT];
@@ -122,12 +123,12 @@ void treeMerge(node **left_tree, node **right_tree) {
     return;
   }
 
-  splay(left_tree, INT_MAX);
+  splay(left_tree, ULLONG_MAX);
   join(RIGHT, left_tree, right_tree);
   treeCalcSum(left_tree);
 }
 
-node *find(node *root, int value) {
+node *find(node *root, unsigned long long value) {
   node *previous;
   previous = 0;
   while (1) {

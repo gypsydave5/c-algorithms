@@ -9,50 +9,51 @@
 typedef struct node {
   struct node *parent;
   struct node *child[2];
-  int value;
-  int sum;
+  unsigned long long value;
+  unsigned long long sum;
 } node;
 
-void splay(node **root, int value);
-void join(int direction, node **parent, node **rightChild);
+void splay(node **root, unsigned long long value);
+void join(unsigned long long direction, node **parent, node **rightChild);
 void treeDestroy(node **root);
-void treeInit(node **n, int value);
-node *find(node *root, int target);
-void treeInsert(node **root, int value);
-int treeContains(node **root, int target);
-void treeRemove(node **root, int target);
-void treeSplit(node **root, node **greater_or_equal, int target);
+void treeInit(node **n, unsigned long long value);
+node *find(node *root, unsigned long long target);
+void treeInsert(node **root, unsigned long long value);
+unsigned long long treeContains(node **root, unsigned long long target);
+void treeRemove(node **root, unsigned long long target);
+void treeSplit(node **root, node **greater_or_equal, unsigned long long target);
 void treeMerge(node **tree_one, node **tree_two);
 void treeCalcSum(node **root);
-int treeSumRange(node **root, int left_bound, int right_bound);
+unsigned long long treeSumRange(node **root, unsigned long long left_bound,
+                                unsigned long long right_bound);
 
 int main() {
-  int commands, i, number, upper, lower, last_sum;
+  unsigned long long commands, i, number, upper, lower, last_sum;
   last_sum = 0;
 
   node *root;
   root = 0;
 
-  scanf("%d\n", &commands);
+  scanf("%lld\n", &commands);
 
   for (i = 0; i < commands; i++) {
     char command;
     scanf("%c ", &command);
 
     if (command == '+') {
-      scanf("%d\n", &number);
+      scanf("%lld\n", &number);
       number = (number + last_sum) % MOD;
       treeInsert(&root, number);
     }
 
     if (command == '-') {
-      scanf("%d\n", &number);
+      scanf("%lld\n", &number);
       number = (number + last_sum) % MOD;
       treeRemove(&root, number);
     }
 
     if (command == '?') {
-      scanf("%d\n", &number);
+      scanf("%lld\n", &number);
       number = (number + last_sum) % MOD;
 
       if (treeContains(&root, number)) {
@@ -63,31 +64,30 @@ int main() {
     }
 
     if (command == 's') {
-      scanf("%d %d\n", &lower, &upper);
+      scanf("%lld %lld\n", &lower, &upper);
       lower = (lower + last_sum) % MOD;
       upper = (upper + last_sum) % MOD;
 
       last_sum = treeSumRange(&root, lower, upper);
 
-      printf("%d\n", last_sum);
+      printf("%lld\n", last_sum);
     }
   }
-  treeDestroy(&root);
 }
 
-static int getSum(node *node) {
+static unsigned long long getSum(node *node) {
   if (node == 0) {
     return 0;
   }
   return node->sum;
 }
 
-static int getValue(node *node) {
+static unsigned long long getValue(node *node) {
   if (node == 0) return 0;
   return node->value;
 }
 
-void join(int direction, node **parent, node **child) {
+void join(unsigned long long direction, node **parent, node **child) {
   (*parent)->child[direction] = *child;
   if (*child != 0) {
     (*child)->parent = *parent;
@@ -95,7 +95,7 @@ void join(int direction, node **parent, node **child) {
 }
 
 void treeCalcSum(node **root) {
-  int new_sum;
+  unsigned long long new_sum;
   new_sum = 0;
   if (*root == 0) return;
 
@@ -104,7 +104,7 @@ void treeCalcSum(node **root) {
   (*root)->sum = new_sum + (*root)->value;
 }
 
-void treeInit(node **n, int value) {
+void treeInit(node **n, unsigned long long value) {
   (*n)->value = value;
   (*n)->sum = value;
   (*n)->child[LEFT] = 0;
@@ -112,8 +112,8 @@ void treeInit(node **n, int value) {
   (*n)->parent = 0;
 }
 
-void treeInsert(node **root, int new_value) {
-  int direction;
+void treeInsert(node **root, unsigned long long new_value) {
+  unsigned long long direction;
   node *new_node;
   splay(root, new_value);
 
@@ -138,12 +138,12 @@ void treeInsert(node **root, int new_value) {
   *root = new_node;
 }
 
-int treeContains(node **root, int value) {
+unsigned long long treeContains(node **root, unsigned long long value) {
   splay(root, value);
   return *root != 0 && (*root)->value == value;
 }
 
-void treeRemove(node **root, int target) {
+void treeRemove(node **root, unsigned long long target) {
   node *left, *right;
   splay(root, target);
   if (*root == 0 || (*root)->value != target) return;
@@ -165,14 +165,23 @@ void treeRemove(node **root, int target) {
     return;
   }
 
-  splay(&left, INT_MAX);
+  splay(&left, ULLONG_MAX);
   join(RIGHT, &left, &right);
   treeCalcSum(&left);
   *root = left;
 }
 
-void treeSplit(node **root, node **greater_or_equal, int target) {
+void treeSplit(node **root, node **greater_or_equal,
+               unsigned long long target) {
+  if (*root == 0) return;
+
   splay(root, target);
+
+  if (*root && (*root)->value < target) {
+    *greater_or_equal = 0;
+    return;
+  }
+
   *greater_or_equal = *root;
   *root = (*root)->child[LEFT];
 
@@ -194,12 +203,12 @@ void treeMerge(node **left_tree, node **right_tree) {
     return;
   }
 
-  splay(left_tree, INT_MAX);
+  splay(left_tree, ULLONG_MAX);
   join(RIGHT, left_tree, right_tree);
   treeCalcSum(left_tree);
 }
 
-node *find(node *root, int value) {
+node *find(node *root, unsigned long long value) {
   node *previous;
   previous = 0;
   while (1) {
@@ -219,11 +228,12 @@ node *find(node *root, int value) {
   }
 }
 
-int treeSumRange(node **root, int left_bound, int right_bound) {
-  int result;
+unsigned long long treeSumRange(node **root, unsigned long long left_bound,
+                                unsigned long long right_bound) {
+  unsigned long long result;
   result = 0;
 
-  if (left_bound > right_bound) {
+  if (*root == 0 || left_bound > right_bound) {
     return result;
   }
 
@@ -252,7 +262,7 @@ void treeDestroy(node **root) {
   }
 }
 
-void splay(node **root, int value) {
+void splay(node **root, unsigned long long value) {
   if (!*root) {
     return;
   }
@@ -262,7 +272,7 @@ void splay(node **root, int value) {
   while (target->parent) {
     if (target->parent->parent) {
       // zig zig or zig zag
-      int direction, grandparentD;
+      unsigned long long direction, grandparentD;
       direction = target->parent->value < target->value;
       grandparentD = target->parent->parent->value < target->parent->value;
       node *x, *y, *z, *a, *b, *c, *d;
@@ -314,7 +324,7 @@ void splay(node **root, int value) {
       treeCalcSum(&x);
     } else {
       // zig
-      int direction = target->parent->value < target->value;
+      unsigned long long direction = target->parent->value < target->value;
       temp = target->child[!direction];
 
       join(!direction, &target, &target->parent);

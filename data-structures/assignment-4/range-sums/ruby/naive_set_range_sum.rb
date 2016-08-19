@@ -31,9 +31,9 @@ def set_range_sum
     if command == "s"
       in_range  = set.to_a.reject {|i| i < first || i > second}
       last_sum  = in_range.reduce(0, :+)
-      puts last_sum
+      puts last_sum || 0
     end
-    #puts set.to_a
+
   end
 end
 

@@ -5,18 +5,19 @@
 typedef struct node {
   struct node *parent;
   struct node *child[2];
-  int value;
-  int sum;
+  unsigned long long value;
+  unsigned long long sum;
 } node;
 
-void join(int direction, node **parent, node **rightChild);
+void join(unsigned long long direction, node **parent, node **rightChild);
 void treeDestroy(node **root);
-void treeInit(node **n, int value);
-node *find(node *root, int target);
-void treeInsert(node **root, int value);
-int treeContains(node **root, int target);
-void treeRemove(node **root, int target);
-void treeSplit(node **root, node **greater_or_equal, int target);
+void treeInit(node **n, unsigned long long value);
+node *find(node *root, unsigned long long target);
+void treeInsert(node **root, unsigned long long value);
+unsigned long long treeContains(node **root, unsigned long long target);
+void treeRemove(node **root, unsigned long long target);
+void treeSplit(node **root, node **greater_or_equal, unsigned long long target);
 void treeMerge(node **tree_one, node **tree_two);
 void treeCalcSum(node **root);
-int treeSumRange(node **root, int left_bound, int right_bound);
+unsigned long long treeSumRange(node **root, unsigned long long left_bound,
+                                unsigned long long right_bound);

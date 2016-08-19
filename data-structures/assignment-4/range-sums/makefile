@@ -10,6 +10,9 @@ ut: btree-spec splay-spec
 at: range-sums
 	cram acceptance_tests/*.t
 
+stress-test: submission
+	ruby stress_test.rb
+
 submission-at: submission
 	cram acceptance_tests/*.t
 

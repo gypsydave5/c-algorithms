@@ -162,6 +162,7 @@ void testInsertNoDuplicates() {
 void testContains() {
   node *root;
   root = 0;
+
   treeInsert(&root, 12);
   assert(root->value == 12);
   treeInsert(&root, 18);

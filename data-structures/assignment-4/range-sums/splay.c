@@ -1,7 +1,7 @@
 #include "splay.h"
 #include "btree.h"
 
-void splay(node **root, int value) {
+void splay(node **root, unsigned long long value) {
   if (!*root) {
     return;
   }
@@ -11,7 +11,7 @@ void splay(node **root, int value) {
   while (target->parent) {
     if (target->parent->parent) {
       // zig zig or zig zag
-      int direction, grandparentD;
+      unsigned long long direction, grandparentD;
       direction = target->parent->value < target->value;
       grandparentD = target->parent->parent->value < target->parent->value;
       node *x, *y, *z, *a, *b, *c, *d;
@@ -63,7 +63,7 @@ void splay(node **root, int value) {
       treeCalcSum(&x);
     } else {
       // zig
-      int direction = target->parent->value < target->value;
+      unsigned long long direction = target->parent->value < target->value;
       temp = target->child[!direction];
 
       join(!direction, &target, &target->parent);
