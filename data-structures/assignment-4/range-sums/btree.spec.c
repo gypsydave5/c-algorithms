@@ -3,6 +3,18 @@
 #include <stdlib.h>
 #include "btree.h"
 
+static node *generateTree(unsigned long long inputs[], int length) {
+  int i;
+  node *root;
+  root = 0;
+
+  for (i = 0; i < length; i++) {
+    treeInsert(&root, inputs[i]);
+  }
+
+  return root;
+}
+
 void testInit() {
   node *x;
   x = malloc(sizeof(node));
@@ -389,28 +401,14 @@ void testTreeSumRangeMax() {
 
 void testTreeSumRangeInexact() {
   int sum;
+  unsigned long long numbers[] = {10, 20, 30, 40, 50};
   node *root;
-  root = 0;
-  treeInsert(&root, 10);
-  treeInsert(&root, 20);
-  treeInsert(&root, 30);
-  treeInsert(&root, 40);
-  treeInsert(&root, 50);
+  root = generateTree(numbers, 5);
 
   sum = treeSumRange(&root, 25, 45);
   assert(sum == 70);
-  assert(root->value == 10);
   assert(root->sum == 150);
   assert(treeContains(&root, 50));
-
-  sum = treeSumRange(&root, 55, 45);
-  assert(sum == 0);
-
-  sum = treeSumRange(&root, 30, 30);
-  assert(sum == 30);
-
-  sum = treeSumRange(&root, 49, 50);
-  assert(sum == 50);
 
   sum = treeSumRange(&root, 0, 100);
   assert(sum == root->sum);
@@ -418,13 +416,46 @@ void testTreeSumRangeInexact() {
   treeDestroy(&root);
 }
 
-void edgeCaseOne() {
+void testTreeSumRangeTooSmall() {
+  int sum;
+  unsigned long long numbers[] = {10, 20};
+  node *root;
+  root = generateTree(numbers, 2);
+
+  sum = treeSumRange(&root, 12, 18);
+  assert(sum == 0);
+}
+
+void testTreeSumRangeNoRange() {
   int sum;
   node *root;
-  root = 0;
-  treeContains(&root, 741630654);
-  treeInsert(&root, 497631873);
+  unsigned long long numbers[] = {55};
+  root = generateTree(numbers, 1);
+
+  sum = treeSumRange(&root, 55, 55);
+
+  assert(sum == 55);
+}
+
+void testTreeSumRangeBoundsOver() {
+  int sum;
+  node *root;
+  unsigned long long numbers[] = {55};
+  root = generateTree(numbers, 1);
+
   sum = treeSumRange(&root, 744291401, 940449494);
+
+  assert(sum == 0);
+}
+
+void testTreeSumRangeBoundsUnder() {
+  int sum;
+  node *root;
+  unsigned long long numbers[] = {497631873};
+  root = generateTree(numbers, 1);
+
+  sum = treeSumRange(&root, 291401, 449494);
+
   assert(sum == 0);
 }
 
@@ -450,6 +481,9 @@ int main() {
   testTreeSumRangeInexact();
   testTreeSumRangeEmpty();
   testTreeSumRangeMax();
-  edgeCaseOne();
+  testTreeSumRangeTooSmall();
+  testTreeSumRangeNoRange();
+  testTreeSumRangeBoundsOver();
+  testTreeSumRangeBoundsUnder();
   printf("\t\x1b[32mBinary tree tests pass\x1b[0m\n");
 }
