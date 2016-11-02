@@ -1,0 +1,4 @@
+#!/bin/bash
+classpath=$TESTDIR/../java
+javac -cp $classpath $classpath/SetRangeSum.java && java -cp $classpath SetRangeSum
+#~/tutorials/algorithms/c-algorithms/data-structures/assignment-4/range-sums/cpp/range-sums
