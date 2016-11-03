@@ -6,8 +6,33 @@ using std::vector;
 using std::queue;
 
 int distance(vector<vector<int> > &adj, int s, int t) {
-  //write your code here
-  return -1;
+    vector<bool> distance(adj.size(), false);
+    vector<int> visited(adj.size(), 0);
+    queue<int> q;
+
+    visited[s] = 1;
+
+    q.push(s);
+
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+        for (int i = 0; i < adj[current].size(); i++) {
+            int adjacent = adj[current][i];
+            if (adjacent == t) {
+                // return early now we've go what we wanted
+                return distance[current] + 1;
+            }
+
+            if (!visited[adjacent]) {
+                visited[adjacent] = true;
+                distance[adjacent] = distance[current] + 1;
+                q.push(adjacent);
+            }
+        }
+    }
+
+    return -1;
 }
 
 int main() {
@@ -23,5 +48,5 @@ int main() {
   int s, t;
   std::cin >> s >> t;
   s--, t--;
-  std::cout << distance(adj, s, t);
+  std::cout << distance(adj, s, t) << '\n';
 }

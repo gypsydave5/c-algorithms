@@ -2,5 +2,4 @@
 *.gch
 *.bin
 *.o
-.ycm_extra_conf.py
 .DS_Store
