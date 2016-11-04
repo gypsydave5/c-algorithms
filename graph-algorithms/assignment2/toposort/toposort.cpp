@@ -16,13 +16,12 @@ void dfs(vector<vector<int> > &adj, vector<int> &used, vector<int> &order,
   }
 
   order.push_back(x);
-  return;
 }
 
 vector<int> toposort(vector<vector<int> > adj) {
   vector<int> used(adj.size(), 0);
   vector<int> order;
-  // write your code here
+
   for (int i = 0; i < adj.size(); i++) {
     if (used[i] == 0) {
       dfs(adj, used, order, i);

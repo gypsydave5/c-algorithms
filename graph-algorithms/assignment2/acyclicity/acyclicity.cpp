@@ -47,12 +47,10 @@ bool acyclic(vector<vector<int>> &adj) {
   is_cycle = false;
 
   for (int n = 0; n < adj.size(); n++) {
-    if (!visited[n]) {
-      is_cycle = test_cycle(n, adj, visited, started);
+    is_cycle = test_cycle(n, adj, visited, started);
 
-      if (is_cycle) {
-        return is_cycle;
-      }
+    if (is_cycle) {
+      return is_cycle;
     }
   }
 
