@@ -6,7 +6,7 @@
   > 1 3" | $TESTDIR/dijkstra.bin
   3
 
-  $ echo " 9
+  $ echo "5 9
   > 1 2 4
   > 1 3 2
   > 2 3 2

@@ -9,52 +9,23 @@ using std::queue;
 using std::pair;
 using std::priority_queue;
 
-class v_dist {
-public:
-    int distance;
-    int vertex;
-};
-
-bool operator>(const v_dist &lhs, const v_dist &rhs) {
-    return lhs.distance > rhs.distance;
-}
-
 int distance(vector<vector<int>> &adj, vector<vector<int>> &cost, int s,
              int t) {
 
-  priority_queue<v_dist, vector<v_dist>, std::greater<v_dist>> pq;
   vector<int> dist(adj.size(), MAX_DIST);
   vector<bool> visited(adj.size(), false);
   dist[s] = 0;
 
   for (int i = 0; i < adj.size(); i++) {
-      v_dist vd;
-      vd.distance = dist[i];
-      vd.vertex = i;
-      pq.push(vd);
-  }
+      for (int u = 0; u < adj.size(); u++) {
 
-  while (pq.size() > 0) {
-      v_dist vd = pq.top();
-      pq.pop();
-      int u = vd.vertex;
+          for (int k = 0; k < adj[u].size(); k++) {
 
-      if (visited[u]) {
-          continue;
-      }
+              int v = adj[u][k];
 
-      visited[u] = true;
-
-      for (int i = 0; i < adj[u].size(); i++) {
-          int v = adj[u][i];
-
-          if (dist[v] > dist[u] + cost[u][i]) {
-              dist[v] = dist[u] + cost[u][i];
-
-              v_dist vd;
-              vd.distance = dist[v];
-              vd.vertex = v;
-              pq.push(vd);
+              if (dist[v] > dist[u] + cost[u][k]) {
+                  dist[v] = dist[u] + cost[u][k];
+              }
           }
       }
   }
