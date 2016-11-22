@@ -45,5 +45,5 @@ int main() {
     adj[x - 1].push_back(y - 1);
     cost[x - 1].push_back(w);
   }
-  std::cout << negative_cycle(adj, cost) << '\n';
+  std::cout << negative_cycle(adj, cost);
 }

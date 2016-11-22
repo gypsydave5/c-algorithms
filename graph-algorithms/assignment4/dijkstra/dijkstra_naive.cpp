@@ -1,13 +1,9 @@
 #include <iostream>
-#include <queue>
 #include <vector>
-#include <climits>
 #define MAX_DIST 10001
 
 using std::vector;
-using std::queue;
 using std::pair;
-using std::priority_queue;
 
 int distance(vector<vector<int>> &adj, vector<vector<int>> &cost, int s,
              int t) {

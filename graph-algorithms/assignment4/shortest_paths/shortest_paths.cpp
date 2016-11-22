@@ -19,9 +19,14 @@ void shortest_paths(
 
   distance[s] = 0;
   reachable[s] = 1;
+  bool changed = true;
 
-  for (int i = 0; i < adj.size() - 1; i++) {
+  for (int i = 0; i < adj.size(); i++) {
       for (int u = 0; u < adj.size(); u++) {
+
+          if (distance[u] == std::numeric_limits<long long>::max()) {
+              continue;
+          }
 
           for (int k = 0; k < adj[u].size(); k++) {
 
@@ -36,18 +41,20 @@ void shortest_paths(
       }
   }
 
-  bool changed = true;
-
   while (changed) {
       changed = false;
 
       for (int u = 0; u < adj.size(); u++) {
 
+          if (distance[u] == std::numeric_limits<long long>::max()) {
+              continue;
+          }
+
           for (int k = 0; k < adj[u].size(); k++) {
               int v = adj[u][k];
               int w = cost[u][k];
 
-              if (distance[v] > distance[u] + w) {
+              if (distance[v] < distance[u] + w) {
                   if (shortest[v]) {
                       distance[v] = distance[u] + w;
                       changed = true;
@@ -57,7 +64,6 @@ void shortest_paths(
           }
       }
   }
-
 }
 
 int main() {
