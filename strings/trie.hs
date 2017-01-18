@@ -1,12 +1,20 @@
 import qualified Data.Map.Strict as M
 import Data.Maybe (fromMaybe)
 
+main = do
+  contents <- getContents
+  let t = EmptyTrie
+  let xs = lines contents
+  let result = foldl (flip insert) t xs
+  putStr (show result)
+
 data Trie
   = Trie Int
          (M.Map Int (M.Map Char Int))
   | EmptyTrie
 
 instance Show Trie where
+  show EmptyTrie = ""
   show (Trie _ m) =
     let al = M.assocs m
         da = map (\(i, m') -> (i, M.assocs m')) al :: [(Int, [(Char, Int)])]
