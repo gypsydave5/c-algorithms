@@ -4,7 +4,7 @@ import Data.Maybe (fromMaybe)
 main = do
   contents <- getContents
   let t = EmptyTrie
-  let xs = lines contents
+  let xs = tail $ lines contents
   let result = foldl (flip insert) t xs
   putStr (show result)
 
@@ -28,19 +28,26 @@ instance Show Trie where
     in ls
 
 insert :: String -> Trie -> Trie
-insert "" (Trie _ m) = Trie 0 m
-insert xs EmptyTrie = insert xs (Trie 0 M.empty)
-insert (x:xs) (Trie i m)
-  | M.notMember i m =
-    insert xs (Trie (next i x m) (M.insert i (M.singleton x (succ i)) m))
-  | otherwise = insert xs (Trie (next i x m) (newMap i x m))
+insert "" (Trie i m) = Trie i m
+insert xs EmptyTrie = insert' n xs EmptyTrie
+insert (x:xs) (Trie i m) = insert' 0 (x:xs) (Trie i m)
+
+insert' :: Int -> String -> Trie -> Trie
+insert' n "" t = t
+insert' n xs EmptyTrie = insert' n xs (Trie 0 M.empty)
+insert' n (x:xs) (Trie i m)
+  | M.notMember n m =
+    insert' (succ n) xs (Trie (succ i) (M.insert i (M.singleton x (succ i)) m))
+  | otherwise = insert' (next n x m) xs (Trie i (newMap n x m))
   where
     innerMap = M.findWithDefault M.empty
-    next i x m = M.findWithDefault (succ i) x $ (innerMap i m)
-    newMap i x m
-      | M.notMember x (innerMap i m) =
-        M.insert i (M.insert x (succ i) (innerMap i m)) m
+    next n x m = M.findWithDefault (succ n) x $ (innerMap n m)
+    newMap n x m
+      | M.notMember x (innerMap n m) =
+        M.insert n (M.insert x (succ n) (innerMap n m)) m
       | otherwise = m
+
+
 
 stuff =
   (Trie
