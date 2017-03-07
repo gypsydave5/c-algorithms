@@ -9,25 +9,38 @@ class Node:
 
 
 def solve(text, n, patterns):
+    index = 0
     result = []
     trie = build_trie(patterns)
+    while text[index:]:
+        if prefix_trie_matching(text[index:], trie):
+            result += [index]
+        index += 1
 
     return result
 
 def prefix_trie_matching(text, trie):
-    symbol = text[0]
     v = 0
-    while true:
+    while True:
         if not trie[v]:
-            return )788
-        
+            return True
+        else:
+            if not text:
+                return False
+            symbol = text[0]
+            if symbol in trie[v]:
+                # print("{}->{}:{}".format(v, trie[v][symbol], symbol))
+                v = trie[v][symbol]
+                text = text[1:]
+            else:
+                return False
+
 
 def build_trie(patterns):
     tree = dict()
     newNode = 0
     for pattern in patterns:
         currentNode = 0
-        print pattern
         for c in pattern:
             if currentNode in tree and c in tree[currentNode]:
                 currentNode = tree[currentNode][c]
@@ -38,7 +51,6 @@ def build_trie(patterns):
                 tree[currentNode][c] = newNode
                 tree[newNode] = dict()
                 currentNode = newNode
-            print tree
     return tree
 
 
