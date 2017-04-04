@@ -11,18 +11,29 @@ using std::vector;
 
 string InverseBWT(const string& bwt) {
   string text = "";
-  vector<string> matrix(bwt.length(), "");
+  string sorted = bwt;
+  sort(sorted.begin(), sorted.end());
 
-  for (int i = 0; i < bwt.length(); i++) {
-    for (int j = 0; j < bwt.length(); j++) {
-      matrix[j] = bwt[j] + matrix[j];
-    }
-    std::sort(matrix.begin(), matrix.end());
-  }
+  char c = '$';
+  int char_num = 0;
 
-  for (string s : matrix) {
-    if (s.back() == '$') {
-      text = s;
+  while (text.length() < bwt.length()) {
+    for (int i = 0; i < bwt.length(); i++) {
+      if (bwt[i] == c) {
+        if (char_num == 0) {
+          text.push_back(c);
+
+          c = sorted[i];
+
+          for (int j = 0; j <= i; j++) {
+            if (sorted[j] == c) {
+              char_num++;
+            }
+          }
+        } else {
+          char_num--;
+        }
+      }
     }
   }
 
