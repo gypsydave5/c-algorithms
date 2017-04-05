@@ -15,6 +15,44 @@ int t_start = -1;
 int c_start = -1;
 int g_start = -1;
 
+vector<int> number_matching;
+
+void construct_number_matching(const string& bwt) {
+  number_matching.resize(bwt.length());
+
+  int first_count = 0;
+  int a_count = 0;
+  int t_count = 0;
+  int c_count = 0;
+  int g_count = 0;
+
+  for (int i = 0; i < bwt.length(); ++i) {
+    char c = bwt[i];
+    if (c == '$') {
+      number_matching[i] = first_count;
+      first_count++;
+    }
+    if (c == 'A') {
+      number_matching[i] = a_count;
+      a_count++;
+    }
+    if (c == 'T') {
+      number_matching[i] = t_count;
+      t_count++;
+    }
+    if (c == 'C') {
+      number_matching[i] = c_count;
+      c_count++;
+    }
+    if (c == 'G') {
+      number_matching[i] = g_count;
+      g_count++;
+    }
+  }
+}
+
+int occurance_up_to(const string& bwt, int pos) { return number_matching[pos]; }
+
 void rank_sorted(const string& bwt) {
   string sorted = bwt;
   std::sort(sorted.begin(), sorted.end());
@@ -53,23 +91,14 @@ int rank_of(char c) {
   }
 }
 
-int occurance_up_to(char c, const string& bwt, int pos) {
-  int count = 0;
-  for (int i = 0; i < pos; ++i) {
-    if (bwt[i] == c) {
-      count++;
-    }
-  }
-  return count;
-}
-
 int inverse(int pos, const string& bwt) {
   char c = bwt[pos];
-  return rank_of(c) + occurance_up_to(c, bwt, pos);
+  return rank_of(c) + occurance_up_to(bwt, pos);
 }
 
 string InverseBWT(const string& bwt) {
   rank_sorted(bwt);
+  construct_number_matching(bwt);
 
   string text = "$";
 
