@@ -17,8 +17,11 @@ int g_start = -1;
 
 vector<int> number_matching;
 
-void construct_number_matching(const string& bwt) {
+void create_tables(const string& bwt) {
   number_matching.resize(bwt.length());
+
+  string sorted = bwt;
+  std::sort(sorted.begin(), sorted.end());
 
   int first_count = 0;
   int a_count = 0;
@@ -48,16 +51,6 @@ void construct_number_matching(const string& bwt) {
       number_matching[i] = g_count;
       g_count++;
     }
-  }
-}
-
-int occurance_up_to(const string& bwt, int pos) { return number_matching[pos]; }
-
-void rank_sorted(const string& bwt) {
-  string sorted = bwt;
-  std::sort(sorted.begin(), sorted.end());
-
-  for (int i = 0; i < sorted.length(); ++i) {
     if (first_start == -1 && sorted[i] == '$') {
       first_start = i;
     }
@@ -75,6 +68,8 @@ void rank_sorted(const string& bwt) {
     }
   }
 }
+
+int occurance_up_to(const string& bwt, int pos) { return number_matching[pos]; }
 
 int rank_of(char c) {
   switch (c) {
@@ -97,8 +92,7 @@ int inverse(int pos, const string& bwt) {
 }
 
 string InverseBWT(const string& bwt) {
-  rank_sorted(bwt);
-  construct_number_matching(bwt);
+  create_tables(bwt);
 
   string text = "$";
 
