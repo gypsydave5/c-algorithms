@@ -93,13 +93,13 @@ int inverse(int pos, const string& bwt) {
 
 string InverseBWT(const string& bwt) {
   create_tables(bwt);
-
-  string text = "$";
+  string text = bwt;
+  text[bwt.length() - 1] = '$';
 
   int pos = 0;
 
   for (int i = 1; i < bwt.length(); ++i) {
-    text = bwt[pos] + text;
+    text[bwt.length() - 1 - i] = bwt[pos];
     pos = inverse(pos, bwt);
   }
 
