@@ -1,39 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define MOD 1000000001
+#include "bwt.h"
 
 int main() {
   char read_in[1000000];
-  int count[256] = {0};
 
   unsigned char c = '\0';
-  int bwt_length = 0;
+  int len = 0;
 
   while (c != '\n') {
     c = getc(stdin);
-    read_in[bwt_length] = c;
-    count[c]++;
-    bwt_length++;
+    read_in[len] = c;
+    len++;
   }
 
-  char bwt[bwt_length];
-  char sorted[bwt_length];
+  char text[len];
+  text[len] = '\0';
 
-  for (int i = bwt_length; i > -1; --i) {
-    bwt[i] = read_in[i];
-    sorted[i] = read_in[i];
+  char result[len];
+  result[len] = '\0';
+
+  for (int i = 0; i < len; i++) {
+    text[i] = read_in[i];
   }
 
-  for (int c = 0; c <= 255; ++c) {
-    int sorted_index = 0;
-    for (int j = 0; j < count[c]; ++j) {
-      sorted[sorted_index] = c;
-      sorted_index++;
-    }
-  }
+  bwt(len, text, result);
 
-  printf("%s", read_in);
-  printf("%s", bwt);
-  printf("%s", sorted);
+  printf("%s", text);
 }

@@ -4,13 +4,24 @@ PERF=-pg
 PROD=-O2
 NAME=bwt
 
-test: build
+test: ut at
+
+at: build
 	cram test.t
 
-build: main.o
+ut: bwt-test
+	./bwt-test
+
+build: main.o bwt.o
 	$(CC) $(CFLAGS) -o $(NAME) $^
 
-main.o: main.c
+main.o: main.c bwt.h
+
+bwt-test: bwt.test.o bwt.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+bwt.test.o: bwt.test.c bwt.h
+bwt.o: bwt.c bwt.h
 
 clean:
 	$(RM) *.o $(NAME) *.err
