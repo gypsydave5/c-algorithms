@@ -24,4 +24,4 @@ bwt.test.o: bwt.test.c bwt.h
 bwt.o: bwt.c bwt.h
 
 clean:
-	$(RM) *.o $(NAME) *.err
+	$(RM) *.o $(NAME) *-test *.err
