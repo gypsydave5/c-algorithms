@@ -36,7 +36,11 @@ void bwt_sort(int len, char matrix[len][len]) {
 }
 
 void bwt(int len, char text[len], char result[len]) {
+  char matrix[len][len];
+  bwt_cycles(len, text, matrix);
+  bwt_sort(len, matrix);
+
   for (int i = 0; i < len; i++) {
-    result[i] = text[i];
+    result[i] = matrix[i][len - 1];
   }
 }

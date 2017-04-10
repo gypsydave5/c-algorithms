@@ -62,8 +62,21 @@ void test_sort() {
   assert(matrix[2][2] == 'b');
 }
 
+void test_bwt() {
+  int len = 3;
+  char text[] = {'a', 'b', 'c'};
+  char result[len];
+
+  bwt(len, text, result);
+
+  assert(result[0] == 'c');
+  assert(result[1] == 'a');
+  assert(result[2] == 'b');
+}
+
 int main() {
   test_cycle_one_char();
   test_cycle_two_char();
   test_sort();
+  test_bwt();
 }

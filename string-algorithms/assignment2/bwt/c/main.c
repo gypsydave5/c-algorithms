@@ -14,10 +14,10 @@ int main() {
     len++;
   }
 
-  char text[len];
+  char text[len + 1];
   text[len] = '\0';
 
-  char result[len];
+  char result[len + 1];
   result[len] = '\0';
 
   for (int i = 0; i < len; i++) {
@@ -26,5 +26,5 @@ int main() {
 
   bwt(len, text, result);
 
-  printf("%s", text);
+  printf("%s", result);
 }
