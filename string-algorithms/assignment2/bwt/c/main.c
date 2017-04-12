@@ -14,19 +14,12 @@ int main() {
     len++;
   }
 
-  char text[len];
-  text[len] = '\0';
-
   char result[len];
-  result[len] = '\0';
-
-  for (int i = 0; i < len; i++) {
-    text[i] = read_in[i];
-  }
+  result[len - 1] = '\0';
 
   // len is the char count including the newline / null char, so less one for
   // the algorithm.
-  bwt(len - 1, text, result);
+  bwt(len - 1, read_in, result);
 
   printf("%s\n", result);
 }

@@ -4,6 +4,9 @@
 
 int LEN;
 
+// TODO: use `strncpy` with a doubled version of the string
+// TODO: use pointers instead of `strncpy`
+
 void bwt_cycles(int len, char text[len], char matrix[len][len]) {
   for (int i = 0; i < len; i++) {
     int index = 0;
@@ -22,12 +25,7 @@ int compare(const void *pa, const void *pb) {
   const char *a = (const char *)pa;
   const char *b = (const char *)pb;
 
-  for (int i = 0; i < LEN; i++) {
-    if (a[i] < b[i]) return -1;
-    if (a[i] > b[i]) return 1;
-  }
-
-  return 0;
+  return strncmp(a, b, LEN);
 }
 
 void bwt_sort(int len, char matrix[len][len]) {
