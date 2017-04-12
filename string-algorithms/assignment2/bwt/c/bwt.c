@@ -6,16 +6,12 @@
 // TODO: use pointers instead of `strncpy`
 
 void bwt_cycles(int len, char text[len], char matrix[len][len]) {
+  char double_text[len * 2];
+  strncpy(double_text, text, len);
+  strncpy(double_text + len, text, len);
+
   for (int i = 0; i < len; i++) {
-    int index = 0;
-    for (int j = i; j < len; j++) {
-      matrix[i][j] = text[index];
-      index++;
-    }
-    for (int k = 0; k < i; k++) {
-      matrix[i][k] = text[index];
-      index++;
-    }
+    strncpy(matrix[i], double_text + i, len);
   }
 }
 
