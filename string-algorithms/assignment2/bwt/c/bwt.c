@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int LEN;
-
 // TODO: use `strncpy` with a doubled version of the string
 // TODO: use pointers instead of `strncpy`
 
@@ -21,16 +19,16 @@ void bwt_cycles(int len, char text[len], char matrix[len][len]) {
   }
 }
 
-int compare(const void *pa, const void *pb) {
+int compare(void *plen, const void *pa, const void *pb) {
+  int len = *(int *)plen;
   const char *a = (const char *)pa;
   const char *b = (const char *)pb;
 
-  return strncmp(a, b, LEN);
+  return strncmp(a, b, len);
 }
 
 void bwt_sort(int len, char matrix[len][len]) {
-  LEN = len;
-  qsort(matrix, len, sizeof matrix[0], compare);
+  qsort_r(matrix, len, sizeof matrix[0], &len, &compare);
 }
 
 void bwt(int len, char text[len], char result[len]) {
