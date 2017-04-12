@@ -35,12 +35,30 @@ void test_cycle_three_char() {
   assert(matrix[0][0] == 'a');
   assert(matrix[0][1] == 'b');
   assert(matrix[0][2] == 'c');
+
   assert(matrix[1][0] == 'c');
   assert(matrix[1][1] == 'a');
   assert(matrix[1][2] == 'b');
+
   assert(matrix[2][0] == 'b');
   assert(matrix[2][1] == 'c');
   assert(matrix[2][2] == 'a');
+}
+
+void test_cycle_ten_char() {
+  int len = 9;
+  char text[] = {'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', '$'};
+  char matrix[len][len];
+
+  bwt_cycles(len, text, matrix);
+
+  assert(matrix[0][0] == 'A');
+  assert(matrix[0][1] == 'C');
+  assert(matrix[0][2] == 'A');
+
+  assert(matrix[1][0] == '$');
+  assert(matrix[1][1] == 'A');
+  assert(matrix[1][2] == 'C');
 }
 
 void test_sort() {
@@ -74,9 +92,27 @@ void test_bwt() {
   assert(result[2] == 'b');
 }
 
+void test_bwt_again() {
+  int len = 9;
+  char text[] = {'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', '$'};
+  char result[len];
+
+  bwt(len, text, result);
+
+  char expected[] = {'C', 'C', 'C', 'C', '$', 'A', 'A', 'A', 'A'};
+
+  for (int i = 0; i < len; ++i) {
+    assert(result[i] == expected[i]);
+  }
+}
+
 int main() {
   test_cycle_one_char();
   test_cycle_two_char();
+  test_cycle_ten_char();
+
   test_sort();
+
   test_bwt();
+  test_bwt_again();
 }
