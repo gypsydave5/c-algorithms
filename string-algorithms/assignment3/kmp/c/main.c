@@ -15,6 +15,17 @@ int read_line(char a[]) {
   return len;
 }
 
+void print_line_array(int len, int a[len]) {
+  if (len < 1) {
+    return;
+  }
+
+  for (int i = 0; i < (len - 1); ++i) {
+    printf("%d ", a[i]);
+  }
+  printf("%d\n", a[len - 1]);
+}
+
 int main() {
   int max_len = 1000001;
   char text[max_len];
@@ -26,10 +37,9 @@ int main() {
   pattern_len = read_line(pattern);
   text_len = read_line(text);
 
-  int **matches = NULL;
-  int total_matches = find_pattern(pattern, text, matches);
+  int *matches = NULL;
+  int total_matches =
+      find_pattern(pattern_len, pattern, text_len, text, &matches);
 
-  printf("%s\n", text);
-  printf("%s\n", pattern);
-  printf("%d\n", total_matches);
+  print_line_array(total_matches, matches);
 }

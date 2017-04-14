@@ -1,1 +1,2 @@
-int find_pattern(char pattern[], char text[], int **matches);
+int find_pattern(int pattern_len, char pattern[], int text_len, char text[],
+                 int **matches);
