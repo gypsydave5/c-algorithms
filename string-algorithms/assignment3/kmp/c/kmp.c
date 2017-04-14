@@ -28,7 +28,7 @@ int find_pattern(int pattern_len, char pattern[], int text_len, char text[],
     }
   }
 
-  *matches = malloc(result_count * (sizeof(int)));
+  *matches = (int *)malloc(result_count * (sizeof(int)));
 
   int match_pointer = 0;
   for (int i = 0; i < total_len; ++i) {
