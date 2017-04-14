@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -25,7 +26,7 @@ int find_pattern(int pattern_len, char pattern[], int text_len, char text[],
   int total_len = pattern_len + 1 + text_len;
   char pattern_and_text[total_len];
 
-  int prefix_array[2000002];
+  int prefix_array[total_len];
 
   for (int i = 0; i < pattern_len; ++i) {
     pattern_and_text[i] = pattern[i];

@@ -26,5 +26,11 @@ prefix.o: prefix.c prefix.h
 kmp_test.o: kmp_test.c kmp.h prefix.h
 kmp.o: kmp.c kmp.h prefix.h
 
+test_sub: submission
+	cram test.t
+
+submission: submission.c
+	$(CC) $(CFLAGS) -o $(NAME) $^
+
 clean:
 	$(RM) *.o $(NAME) *.err *_test
