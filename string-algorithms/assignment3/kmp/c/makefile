@@ -12,6 +12,9 @@ at: build
 ut: prefix_test kmp_test
 	./prefix_test && ./kmp_test
 
+stress: kmp_stress_test
+	./kmp_stress_test
+
 build: main.o kmp.o prefix.o
 	$(CC) $(CFLAGS) -o $(NAME) $^
 
@@ -19,12 +22,15 @@ main.o: main.c kmp.h
 
 prefix_test: prefix_test.o prefix.o
 kmp_test: kmp_test.o kmp.o prefix.o
+kmp_stress_test: kmp_stress_test.o kmp.o prefix.o
 
 prefix_test.o: prefix_test.c prefix.h
 prefix.o: prefix.c prefix.h
 
 kmp_test.o: kmp_test.c kmp.h prefix.h
 kmp.o: kmp.c kmp.h prefix.h
+
+kmp_stress_test.o: kmp_stress_test.c kmp.h
 
 test_sub: submission
 	cram test.t
